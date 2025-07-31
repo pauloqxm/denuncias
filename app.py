@@ -63,6 +63,13 @@ if aba == "📨 Enviar Denúncia":
         final_lon = click_coords["lng"]
 
     if st.button("Enviar Denúncia"):
+        # Salvar imagem enviada, se houver
+        if imagem:
+            pasta = "imagens"
+            os.makedirs(pasta, exist_ok=True)
+            caminho_arquivo = os.path.join(pasta, imagem.name)
+            with open(caminho_arquivo, "wb") as f:
+                f.write(imagem.getbuffer())
         if not final_lat or not final_lon or not bairro or not descricao:
             st.warning("Preencha todos os campos obrigatórios e defina a localização.")
         else:
@@ -97,7 +104,11 @@ elif aba == "📊 Painel de Visualização":
             cor = 'green' if row['tipo'] == 'Obra' else 'red'
             folium.Marker(
                 location=[row['latitude'], row['longitude']],
-                popup=f"{row['tipo']} em {row['bairro']}:<br>{row['descricao']}",
+                popup=folium.Popup(f"""
+                <b>{row['tipo']} em {row['bairro']}</b><br>
+                {row['descricao']}<br>
+                {'<img src="imagens/' + row['imagem'] + '" width="200">' if row['imagem'] else ''}
+            """, max_width=300),
                 icon=folium.Icon(color=cor)
             ).add_to(mapa)
         st_folium(mapa, width=700, height=400)

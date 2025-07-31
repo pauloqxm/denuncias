@@ -1,1 +1,8 @@
-tipo,bairro,descricao,latitude,longitude,imagem
+﻿,tipo,bairro,descricao,latitude,longitude,imagem
+0,Denúncia,Alto da Colina,Sem calçamento,-5.184444,-39.307814,
+1,Denúncia,Rodoviária,Sem água,-5.190256,-39.292815,
+2,Denúncia,Jaime lopes,Sem coleta de lixo,-5.202464,-39.307376,
+3,Denúncia,Maravilha,Sema água,-5.21218,-39.300108,
+4,Denúncia,Conjunto Esperaça,Buraco na rua,-5.187591,-39.274642,
+5,Obra,Matadouro,Calçamento,-5.207129,-39.292092,
+6,Denúncia,Salviano Carlos,Calçamento quebrado,-5.187862151072812,-39.3054303354912,
