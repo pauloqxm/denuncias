@@ -18,8 +18,8 @@ if aba == "📨 Enviar Denúncia":
     st.title("📝 Enviar Nova Denúncia")
 
     tipo = st.selectbox("Tipo:", ["Denúncia", "Obra"])
-    bairro = st.text_input("Bairro:")
-    descricao = st.text_area("Descrição:")
+    bairro = st.text_input("Bairro:", key="bairro")
+    descricao = st.text_area("Descrição:", key="descricao")
     imagem = st.file_uploader("Foto (opcional):", type=["png", "jpg", "jpeg"])
 
     st.markdown("### 📍 Capturar Localização Atual")
@@ -31,9 +31,9 @@ if aba == "📨 Enviar Denúncia":
     st.markdown("### Coordenadas")
     col1, col2 = st.columns(2)
     with col1:
-        final_lat = st.text_input("Latitude", value=str(gps_lat) if gps_lat else "")
+        final_lat = st.text_input("Latitude", value=str(gps_lat) if gps_lat else "", key="latitude")
     with col2:
-        final_lon = st.text_input("Longitude", value=str(gps_lon) if gps_lon else "")
+        final_lon = st.text_input("Longitude", value=str(gps_lon) if gps_lon else "", key="longitude")
 
     # Mapa
     map_center = [float(final_lat), float(final_lon)] if final_lat and final_lon else [-5.2, -39.29]
@@ -51,6 +51,9 @@ if aba == "📨 Enviar Denúncia":
         final_lon = click_coords["lng"]
 
     if st.button("Enviar Denúncia"):
+    enviado = True
+else:
+    enviado = False
         if not final_lat or not final_lon or not bairro or not descricao:
             st.warning("Preencha todos os campos obrigatórios e defina a localização.")
         else:
@@ -63,17 +66,16 @@ if aba == "📨 Enviar Denúncia":
                 "imagem": imagem.name if imagem else ""
             }
             st.session_state.denuncias = pd.concat([st.session_state.denuncias, pd.DataFrame([nova])], ignore_index=True)
-            st.session_state.denuncias.to_csv("denuncias.csv", index=False)
             st.success("Denúncia enviada com sucesso!")
-            st.experimental_rerun()
             st.balloons()
+            st.session_state["bairro"] = ""
+            st.session_state["descricao"] = ""
+            st.session_state["latitude"] = ""
+            st.session_state["longitude"] = ""
 
 elif aba == "📊 Painel de Visualização":
     st.title("📊 Painel de Denúncias")
 
-    import os
-    if os.path.exists("denuncias.csv"):
-        st.session_state.denuncias = pd.read_csv("denuncias.csv")
     df = st.session_state.denuncias.copy()
 
     if df.empty:
