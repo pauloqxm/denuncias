@@ -24,8 +24,7 @@ def gerar_mapa(dataframe):
         cor = 'green' if row['tipo'] == 'Obra' else 'red'
         folium.Marker(
             location=[row['latitude'], row['longitude']],
-            popup=f"{row['tipo']} em {row['bairro']}:
-{row['descricao']}",
+            popup=f"{row['tipo']} em {row['bairro']}:<br>{row['descricao']}",
             icon=folium.Icon(color=cor)
         ).add_to(mapa)
     return mapa
