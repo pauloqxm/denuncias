@@ -101,16 +101,16 @@ elif aba == "📊 Painel de Visualização":
         st.subheader("📍 Mapa das Denúncias")
         mapa = folium.Map(location=[-5.2, -39.29], zoom_start=13)
         for _, row in df.iterrows():
-            cor = 'green' if row['tipo'] == 'Obra' else 'red'
-            folium.Marker(
-                location=[row['latitude'], row['longitude']],
-                popup=folium.Popup(f"""
+            imagem_html = f'<img src="imagens/{row["imagem"]}" width="200">' if row["imagem"] else ""
+            popup_html = f"""
                 <b>{row['tipo']} em {row['bairro']}</b><br>
                 {row['descricao']}<br>
-                {'<img src="imagens/' + row['imagem'] + '" width="200">' if row['imagem'] else ''}
-"""
-            popup=folium.Popup(popup_html, max_width=300),
-                icon=folium.Icon(color=cor)
+                {imagem_html}
+            """
+            folium.Marker(
+                location=[row['latitude'], row['longitude']],
+                popup=folium.Popup(popup_html, max_width=300),
+                icon=folium.Icon(color='green' if row['tipo'] == 'Obra' else 'red')
             ).add_to(mapa)
         st_folium(mapa, width=700, height=400)
 
