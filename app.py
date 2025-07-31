@@ -108,7 +108,8 @@ elif aba == "📊 Painel de Visualização":
                 <b>{row['tipo']} em {row['bairro']}</b><br>
                 {row['descricao']}<br>
                 {'<img src="imagens/' + row['imagem'] + '" width="200">' if row['imagem'] else ''}
-            """, max_width=300),
+"""
+            popup=folium.Popup(popup_html, max_width=300),
                 icon=folium.Icon(color=cor)
             ).add_to(mapa)
         st_folium(mapa, width=700, height=400)
