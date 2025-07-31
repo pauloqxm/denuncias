@@ -2,8 +2,7 @@
 import streamlit as st
 import pandas as pd
 import folium
-from streamlit_folium import st_folium
-from geopy.distance import geodesic
+from streamlit_folium import folium_static
 
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 st.title("📋 Denúncias Recebidas")
@@ -13,6 +12,7 @@ def carregar_dados():
     try:
         df = pd.read_csv("fiscaliza.csv")
         df = df.dropna(how='all')
+
         if "_Coordenadas_latitude" in df.columns:
             df["_Coordenadas_latitude"] = pd.to_numeric(df["_Coordenadas_latitude"].astype(str).str.replace(",", "."), errors='coerce')
         if "_Coordenadas_longitude" in df.columns:
@@ -25,9 +25,6 @@ def carregar_dados():
         return pd.DataFrame()
 
 df = carregar_dados()
-
-if 'selecionado' not in st.session_state:
-    st.session_state['selecionado'] = None
 
 if df.empty:
     st.error("❌ Não foi possível carregar os dados ou o arquivo está vazio.")
@@ -42,7 +39,6 @@ else:
             tipo = st.selectbox("Filtrar por tipo de denúncia", ["Todos"] + sorted(df["Tipo de Denúncia"].dropna().unique()))
         with col2:
             bairro = st.selectbox("Filtrar por bairro", ["Todos"] + sorted(df["Bairro"].dropna().unique()))
-
         filtered_df = df.copy()
         if tipo != "Todos":
             filtered_df = filtered_df[filtered_df["Tipo de Denúncia"] == tipo]
@@ -57,38 +53,29 @@ else:
                 lat_mean = valid_coords_df["_Coordenadas_latitude"].mean()
                 lon_mean = valid_coords_df["_Coordenadas_longitude"].mean()
                 mapa = folium.Map(location=[lat_mean, lon_mean], zoom_start=13)
-
-                for i, row in valid_coords_df.iterrows():
+                for _, row in valid_coords_df.iterrows():
                     lat = row["_Coordenadas_latitude"]
                     lon = row["_Coordenadas_longitude"]
-                    popup_html = (
-                        f"<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
-                        f"<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B;'>🚨 Denúncia Registrada</h4>"
-                        f"<p><b>📛 Nome:</b> {row['Nome']}</p>"
-                        f"<p><b>📝 Tipo:</b> {row['Tipo de Denúncia']}</p>"
-                        f"<p><b>📍 Bairro:</b> {row['Bairro']}</p>"
-                        f"<p><b>🧾 Relato:</b> {row['Breve relato']}</p>"
-                        "</div>"
+                    foto_url = row.get("Foto_URL", "")
+                    imagem_html = ""
+                    if pd.notna(foto_url) and str(foto_url).strip().startswith(('http://', 'https://')):
+                        imagem_html = f'<img src="{foto_url}" width="200" style="margin-top:10px;"><br>'
+                    popup_info = (
+                        "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
+                        "<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B; border-bottom: 1px solid #ccc;'>🚨 Denúncia Registrada</h4>"
+                        f"<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📛 Nome:</span> {row.get('Nome', 'Sem nome')}</p>"
+                        f"<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📝 Tipo:</span> {row.get('Tipo de Denúncia', 'Não informado')}</p>"
+                        f"<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>📍 Bairro:</span> {row.get('Bairro', 'Não informado')}</p>"
+                        f"<p style='margin: 4px 0;'><span style='color: #2A4D9B; font-weight: bold;'>🧾 Relato:</span> {row.get('Breve relato', 'Não informado')}</p>"
+                        f"{imagem_html}</div>"
                     )
-                    popup = folium.Popup(folium.IFrame(popup_html, width=250, height=220), max_width=300)
+                    popup = folium.Popup(popup_info, max_width=300)
                     folium.Marker([lat, lon], popup=popup, icon=folium.Icon(color="blue", icon="info-sign")).add_to(mapa)
-
-                map_result = st_folium(mapa, width=1000, height=500)
-
-                if map_result and map_result.get("last_clicked"):
-                    click_lat = map_result["last_clicked"]["lat"]
-                    click_lon = map_result["last_clicked"]["lng"]
-
-                    def get_distance(row):
-                        return geodesic((row["_Coordenadas_latitude"], row["_Coordenadas_longitude"]), (click_lat, click_lon)).meters
-
-                    distances = valid_coords_df.apply(get_distance, axis=1)
-                    closest_idx = distances.idxmin()
-                    st.session_state["selecionado"] = closest_idx
+                folium_static(mapa, width=1000)
+            else:
+                st.warning("Nenhuma denúncia com coordenadas válidas para exibir no mapa.")
+        else:
+            st.warning("⚠️ Colunas de coordenadas não encontradas no arquivo.")
 
         st.subheader("📄 Lista de Denúncias Filtradas")
-        if st.session_state['selecionado'] is not None and st.session_state['selecionado'] in filtered_df.index:
-            selected_row = filtered_df.loc[st.session_state['selecionado']]
-            st.markdown(f"🔎 Linha selecionada: **{selected_row['Nome']}** — {selected_row['Tipo de Denúncia']}")
-
         st.dataframe(filtered_df[["Nome", "Bairro", "Tipo de Denúncia", "Breve relato", "_submission_time"]], use_container_width=True)
