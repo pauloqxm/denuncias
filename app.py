@@ -5,6 +5,7 @@ from streamlit_folium import st_folium
 from streamlit_javascript import st_javascript
 import altair as alt
 import os
+import numpy as np
 
 st.set_page_config(page_title="Mapeador de Denúncias", layout="centered")
 
@@ -124,8 +125,17 @@ elif aba == "📊 Painel de Visualização":
         mapa = folium.Map(location=[-5.2, -39.29], zoom_start=13)
         for _, row in df.iterrows():
             imagem_html = ""
-            if row["imagem"] and os.path.exists(os.path.join("imagens", row["imagem"])):
-                imagem_html = f'<img src="imagens/{row["imagem"]}" width="200">'
+            # Verificação mais segura do caminho da imagem
+            if pd.notna(row["imagem"]) and isinstance(row["imagem"], str) and row["imagem"].strip():
+                try:
+                    image_path = os.path.join("imagens", row["imagem"].strip())
+                    if os.path.exists(image_path):
+                        imagem_html = f'<img src="{image_path}" width="200">'
+                    else:
+                        st.warning(f"Arquivo de imagem não encontrado: {image_path}")
+                except (TypeError, AttributeError) as e:
+                    st.warning(f"Erro ao processar caminho da imagem: {e}")
+            
             popup_html = f"""
                 <b>{row['tipo']} em {row['bairro']}</b><br>
                 {row['descricao']}<br>
