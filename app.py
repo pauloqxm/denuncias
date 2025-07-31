@@ -13,6 +13,13 @@ def carregar_dados():
         df = pd.read_csv("fiscaliza.csv")
         # Remove linhas completamente vazias
         df = df.dropna(how='all')
+        
+        # Verifica e converte coordenadas para numérico
+        if "_Coordenadas_latitude" in df.columns:
+            df["_Coordenadas_latitude"] = pd.to_numeric(df["_Coordenadas_latitude"], errors='coerce')
+        if "_Coordenadas_longitude" in df.columns:
+            df["_Coordenadas_longitude"] = pd.to_numeric(df["_Coordenadas_longitude"], errors='coerce')
+            
         return df
     except Exception as e:
         st.error(f"Erro ao carregar os dados: {e}")
@@ -53,21 +60,29 @@ else:
         if "_Coordenadas_latitude" in filtered_df.columns and "_Coordenadas_longitude" in filtered_df.columns:
             st.subheader("🗺️ Mapa das Denúncias")
 
+            # Filtra apenas linhas com coordenadas válidas
+            valid_coords_df = filtered_df[
+                (filtered_df["_Coordenadas_latitude"].notna()) & 
+                (filtered_df["_Coordenadas_longitude"].notna())
+            ]
+            
             # Calcula o centro do mapa baseado nos dados filtrados
-            if not filtered_df.empty:
+            if not valid_coords_df.empty:
                 try:
-                    lat_mean = filtered_df["_Coordenadas_latitude"].mean()
-                    lon_mean = filtered_df["_Coordenadas_longitude"].mean()
+                    lat_mean = valid_coords_df["_Coordenadas_latitude"].mean()
+                    lon_mean = valid_coords_df["_Coordenadas_longitude"].mean()
                     mapa = folium.Map(location=[lat_mean, lon_mean], zoom_start=12)
                 except:
                     mapa = folium.Map(location=[-5.2, -39.3], zoom_start=12)
             else:
                 mapa = folium.Map(location=[-5.2, -39.3], zoom_start=12)
+                st.warning("Nenhuma denúncia com coordenadas válidas para exibir no mapa.")
 
-            for _, row in filtered_df.iterrows():
-                lat = row["_Coordenadas_latitude"]
-                lon = row["_Coordenadas_longitude"]
-                if pd.notna(lat) and pd.notna(lon):
+            for _, row in valid_coords_df.iterrows():
+                try:
+                    lat = float(row["_Coordenadas_latitude"])
+                    lon = float(row["_Coordenadas_longitude"])
+                    
                     foto_url = row.get("Foto_URL", "")
                     # Verifica se a URL da foto é válida
                     imagem_html = ""
@@ -89,6 +104,8 @@ else:
                         popup=popup,
                         icon=folium.Icon(color="red", icon="info-sign")
                     ).add_to(mapa)
+                except ValueError:
+                    continue  # Pula linhas com coordenadas inválidas
 
             folium_static(mapa, width=1000)
         else:
