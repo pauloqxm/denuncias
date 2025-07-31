@@ -10,8 +10,10 @@ st.title("📋 Denúncias Recebidas")
 @st.cache_data
 def carregar_dados():
     try:
-        df = pd.read_csv("fiscaliza_corrigido.csv")
+        df = pd.read_csv("fiscaliza.csv")
         df = df.dropna(how='all')
+
+        # Corrigir vírgulas nas coordenadas
         if "_Coordenadas_latitude" in df.columns:
             df["_Coordenadas_latitude"] = pd.to_numeric(
                 df["_Coordenadas_latitude"].astype(str).str.replace(",", "."), errors='coerce'
@@ -20,6 +22,11 @@ def carregar_dados():
             df["_Coordenadas_longitude"] = pd.to_numeric(
                 df["_Coordenadas_longitude"].astype(str).str.replace(",", "."), errors='coerce'
             )
+
+        # Corrigir vírgulas em URLs de imagem
+        if "Foto_URL" in df.columns:
+            df["Foto_URL"] = df["Foto_URL"].astype(str).str.replace(",", ".", regex=False)
+
         return df
     except Exception as e:
         st.error(f"Erro ao carregar os dados: {e}")
