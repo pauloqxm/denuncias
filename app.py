@@ -63,12 +63,16 @@ if aba == "📨 Enviar Denúncia":
                 "imagem": imagem.name if imagem else ""
             }
             st.session_state.denuncias = pd.concat([st.session_state.denuncias, pd.DataFrame([nova])], ignore_index=True)
+            st.session_state.denuncias.to_csv("denuncias.csv", index=False)
             st.success("Denúncia enviada com sucesso!")
             st.balloons()
 
 elif aba == "📊 Painel de Visualização":
     st.title("📊 Painel de Denúncias")
 
+    import os
+    if os.path.exists("denuncias.csv"):
+        st.session_state.denuncias = pd.read_csv("denuncias.csv")
     df = st.session_state.denuncias.copy()
 
     if df.empty:
