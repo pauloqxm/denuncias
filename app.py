@@ -67,6 +67,8 @@ if aba == "📨 Enviar Denúncia":
         if imagem:
             pasta = "imagens"
             os.makedirs(pasta, exist_ok=True)
+            pasta = "imagens"
+            os.makedirs(pasta, exist_ok=True)
             caminho_arquivo = os.path.join(pasta, imagem.name)
             with open(caminho_arquivo, "wb") as f:
                 f.write(imagem.getbuffer())
