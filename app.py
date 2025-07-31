@@ -3,68 +3,102 @@ import pandas as pd
 import folium
 from streamlit_folium import st_folium
 from streamlit_javascript import st_javascript
+import altair as alt
 
 st.set_page_config(page_title="Mapeador de Denúncias", layout="centered")
 
+# Inicializa o DataFrame no estado da sessão
 if "denuncias" not in st.session_state:
     st.session_state.denuncias = pd.DataFrame(columns=["tipo", "bairro", "descricao", "latitude", "longitude", "imagem"])
 
-st.title("📝 Enviar Nova Denúncia")
+# Menu lateral
+aba = st.sidebar.radio("Escolha uma aba:", ["📨 Enviar Denúncia", "📊 Painel de Visualização"])
 
-tipo = st.selectbox("Tipo:", ["Denúncia", "Obra"])
-bairro = st.text_input("Bairro:")
-descricao = st.text_area("Descrição:")
-imagem = st.file_uploader("Foto (opcional):", type=["png", "jpg", "jpeg"])
+if aba == "📨 Enviar Denúncia":
+    st.title("📝 Enviar Nova Denúncia")
 
-st.markdown("### 📍 Capturar Localização Atual")
+    tipo = st.selectbox("Tipo:", ["Denúncia", "Obra"])
+    bairro = st.text_input("Bairro:")
+    descricao = st.text_area("Descrição:")
+    imagem = st.file_uploader("Foto (opcional):", type=["png", "jpg", "jpeg"])
 
-# Captura do GPS com retorno para Python
-coords = st_javascript("await new Promise((resolve) => navigator.geolocation.getCurrentPosition((pos) => resolve({lat: pos.coords.latitude, lon: pos.coords.longitude})))")
+    st.markdown("### 📍 Capturar Localização Atual")
+    coords = st_javascript("await new Promise((resolve) => navigator.geolocation.getCurrentPosition((pos) => resolve({lat: pos.coords.latitude, lon: pos.coords.longitude})))")
+    gps_lat = coords.get("lat") if coords else None
+    gps_lon = coords.get("lon") if coords else None
 
-gps_lat = coords.get("lat") if coords else None
-gps_lon = coords.get("lon") if coords else None
+    # Coordenadas lado a lado acima do mapa
+    st.markdown("### Coordenadas")
+    col1, col2 = st.columns(2)
+    with col1:
+        final_lat = st.text_input("Latitude", value=str(gps_lat) if gps_lat else "")
+    with col2:
+        final_lon = st.text_input("Longitude", value=str(gps_lon) if gps_lon else "")
 
-# Define ponto inicial do mapa
-map_center = [gps_lat, gps_lon] if gps_lat and gps_lon else [-5.2, -39.29]
-mapa = folium.Map(location=map_center, zoom_start=15 if gps_lat else 13)
+    # Mapa
+    map_center = [float(final_lat), float(final_lon)] if final_lat and final_lon else [-5.2, -39.29]
+    mapa = folium.Map(location=map_center, zoom_start=15 if gps_lat else 13)
 
-# Mostra ponto do GPS, se houver
-if gps_lat and gps_lon:
-    folium.Marker([gps_lat, gps_lon], tooltip="Localização atual (GPS)", icon=folium.Icon(color="blue")).add_to(mapa)
+    if final_lat and final_lon:
+        folium.Marker([float(final_lat), float(final_lon)],
+                      tooltip="Localização definida",
+                      icon=folium.Icon(color="blue")).add_to(mapa)
 
-# Mapa clicável
-map_data = st_folium(mapa, width=700, height=400)
+    map_data = st_folium(mapa, width=700, height=400)
+    click_coords = map_data.get("last_clicked")
+    if click_coords:
+        final_lat = click_coords["lat"]
+        final_lon = click_coords["lng"]
 
-# Substituir por clique
-click_coords = map_data.get("last_clicked")
-default_lat = click_coords["lat"] if click_coords else gps_lat
-default_lon = click_coords["lng"] if click_coords else gps_lon
+    if st.button("Enviar Denúncia"):
+        if not final_lat or not final_lon or not bairro or not descricao:
+            st.warning("Preencha todos os campos obrigatórios e defina a localização.")
+        else:
+            nova = {
+                "tipo": tipo,
+                "bairro": bairro,
+                "descricao": descricao,
+                "latitude": float(final_lat),
+                "longitude": float(final_lon),
+                "imagem": imagem.name if imagem else ""
+            }
+            st.session_state.denuncias = pd.concat([st.session_state.denuncias, pd.DataFrame([nova])], ignore_index=True)
+            st.success("Denúncia enviada com sucesso!")
+            st.balloons()
 
-# Campos de coordenadas editáveis lado a lado
-st.markdown("### Coordenadas")
-col1, col2 = st.columns(2)
-with col1:
-    final_lat = st.text_input("Latitude", value=str(default_lat) if default_lat else "")
-with col2:
-    final_lon = st.text_input("Longitude", value=str(default_lon) if default_lon else "")
+elif aba == "📊 Painel de Visualização":
+    st.title("📊 Painel de Denúncias")
 
-if final_lat and final_lon:
-    st.success(f"Localização definida: {final_lat}, {final_lon}")
-else:
-    st.warning("Localização não definida. Habilite o GPS, clique no mapa ou preencha manualmente.")
+    df = st.session_state.denuncias.copy()
 
-if st.button("Enviar Denúncia"):
-    if not final_lat or not final_lon or not bairro or not descricao:
-        st.warning("Preencha todos os campos obrigatórios e defina a localização.")
+    if df.empty:
+        st.info("Nenhuma denúncia cadastrada ainda.")
     else:
-        nova = {
-            "tipo": tipo,
-            "bairro": bairro,
-            "descricao": descricao,
-            "latitude": float(final_lat),
-            "longitude": float(final_lon),
-            "imagem": imagem.name if imagem else ""
-        }
-        st.session_state.denuncias = pd.concat([st.session_state.denuncias, pd.DataFrame([nova])], ignore_index=True)
-        st.success("Denúncia enviada com sucesso!")
-        st.balloons()
+        st.subheader("📍 Mapa das Denúncias")
+        mapa = folium.Map(location=[-5.2, -39.29], zoom_start=13)
+        for _, row in df.iterrows():
+            cor = 'green' if row['tipo'] == 'Obra' else 'red'
+            folium.Marker(
+                location=[row['latitude'], row['longitude']],
+                popup=f"{row['tipo']} em {row['bairro']}:<br>{row['descricao']}",
+                icon=folium.Icon(color=cor)
+            ).add_to(mapa)
+        st_folium(mapa, width=700, height=400)
+
+        st.subheader("📈 Gráficos")
+        grafico_tipo = alt.Chart(df).mark_bar().encode(
+            x='tipo:N',
+            y='count():Q',
+            color='tipo:N'
+        ).properties(title="Total por Tipo")
+        st.altair_chart(grafico_tipo, use_container_width=True)
+
+        grafico_bairro = alt.Chart(df).mark_bar().encode(
+            x='bairro:N',
+            y='count():Q',
+            color='tipo:N'
+        ).properties(title="Denúncias por Bairro")
+        st.altair_chart(grafico_bairro, use_container_width=True)
+
+        st.subheader("📄 Lista de Denúncias")
+        st.dataframe(df.reset_index(drop=True))
