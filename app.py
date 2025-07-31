@@ -74,10 +74,10 @@ if aba == "📨 Enviar Denúncia":
             st.session_state.denuncias.to_csv("denuncias.csv", index=False)
             st.success("Denúncia enviada com sucesso!")
             st.balloons()
-            st.session_state.bairro = ""
-            st.session_state.descricao = ""
-            st.session_state.latitude = ""
-            st.session_state.longitude = ""
+            st.session_state["bairro"] = ""
+            st.session_state["descricao"] = ""
+            st.session_state["latitude"] = ""
+            st.session_state["longitude"] = ""
 
 elif aba == "📊 Painel de Visualização":
     st.title("📊 Painel de Denúncias")
