@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import st_folium
+from geopy.distance import geodesic
 
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 st.title("📋 Denúncias Recebidas")
@@ -24,6 +25,7 @@ def carregar_dados():
         return pd.DataFrame()
 
 df = carregar_dados()
+
 if 'selecionado' not in st.session_state:
     st.session_state['selecionado'] = None
 
@@ -40,6 +42,7 @@ else:
             tipo = st.selectbox("Filtrar por tipo de denúncia", ["Todos"] + sorted(df["Tipo de Denúncia"].dropna().unique()))
         with col2:
             bairro = st.selectbox("Filtrar por bairro", ["Todos"] + sorted(df["Bairro"].dropna().unique()))
+
         filtered_df = df.copy()
         if tipo != "Todos":
             filtered_df = filtered_df[filtered_df["Tipo de Denúncia"] == tipo]
@@ -47,6 +50,7 @@ else:
             filtered_df = filtered_df[filtered_df["Bairro"] == bairro]
 
         st.subheader("🗺️ Mapa das Denúncias")
+
         if "_Coordenadas_latitude" in filtered_df.columns and "_Coordenadas_longitude" in filtered_df.columns:
             valid_coords_df = filtered_df[filtered_df["_Coordenadas_latitude"].notna() & filtered_df["_Coordenadas_longitude"].notna()]
             if not valid_coords_df.empty:
@@ -57,33 +61,34 @@ else:
                 for i, row in valid_coords_df.iterrows():
                     lat = row["_Coordenadas_latitude"]
                     lon = row["_Coordenadas_longitude"]
-                    nome = row["Nome"]
-                    foto_url = row.get("Foto_URL", "")
-                    imagem_html = ""
-                    if pd.notna(foto_url) and str(foto_url).strip().startswith(('http://', 'https://')):
-                        imagem_html = f'<img src="{foto_url}" width="200" style="margin-top:10px;"><br>'
-
                     popup_html = (
                         f"<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
                         f"<h4 style='margin-top: 0; margin-bottom: 8px; color: #2A4D9B;'>🚨 Denúncia Registrada</h4>"
-                        f"<p><b>📛 Nome:</b> {nome}</p>"
+                        f"<p><b>📛 Nome:</b> {row['Nome']}</p>"
                         f"<p><b>📝 Tipo:</b> {row['Tipo de Denúncia']}</p>"
                         f"<p><b>📍 Bairro:</b> {row['Bairro']}</p>"
                         f"<p><b>🧾 Relato:</b> {row['Breve relato']}</p>"
-                        f"{imagem_html}"
-                        f"<form action='.' method='post'>"
-                        f"<input type='hidden' name='selecionar' value='{i}'>"
-                        f"<input type='submit' value='Selecionar' style='background-color:#2A4D9B; color:white; padding:4px 10px; border:none; border-radius:4px;'>"
-                        f"</form>"
-                        f"</div>"
+                        "</div>"
                     )
-                    popup = folium.Popup(folium.IFrame(popup_html, width=250, height=320), max_width=300)
+                    popup = folium.Popup(folium.IFrame(popup_html, width=250, height=220), max_width=300)
                     folium.Marker([lat, lon], popup=popup, icon=folium.Icon(color="blue", icon="info-sign")).add_to(mapa)
 
                 map_result = st_folium(mapa, width=1000, height=500)
 
+                if map_result and map_result.get("last_clicked"):
+                    click_lat = map_result["last_clicked"]["lat"]
+                    click_lon = map_result["last_clicked"]["lng"]
+
+                    def get_distance(row):
+                        return geodesic((row["_Coordenadas_latitude"], row["_Coordenadas_longitude"]), (click_lat, click_lon)).meters
+
+                    distances = valid_coords_df.apply(get_distance, axis=1)
+                    closest_idx = distances.idxmin()
+                    st.session_state["selecionado"] = closest_idx
+
         st.subheader("📄 Lista de Denúncias Filtradas")
-        if st.session_state['selecionado'] is not None:
-            st.markdown(f"🔎 Linha selecionada: **{st.session_state['selecionado']} - {filtered_df.iloc[st.session_state['selecionado']]['Nome']}**")
+        if st.session_state['selecionado'] is not None and st.session_state['selecionado'] in filtered_df.index:
+            selected_row = filtered_df.loc[st.session_state['selecionado']]
+            st.markdown(f"🔎 Linha selecionada: **{selected_row['Nome']}** — {selected_row['Tipo de Denúncia']}")
 
         st.dataframe(filtered_df[["Nome", "Bairro", "Tipo de Denúncia", "Breve relato", "_submission_time"]], use_container_width=True)
