@@ -24,8 +24,6 @@ coords = st_javascript("await new Promise((resolve) => navigator.geolocation.get
 gps_lat = coords.get("lat") if coords else None
 gps_lon = coords.get("lon") if coords else None
 
-st.markdown("### 🗺️ Clique no mapa para sobrescrever a localização")
-
 # Define ponto inicial do mapa
 map_center = [gps_lat, gps_lon] if gps_lat and gps_lon else [-5.2, -39.29]
 mapa = folium.Map(location=map_center, zoom_start=15 if gps_lat else 13)
@@ -42,9 +40,13 @@ click_coords = map_data.get("last_clicked")
 default_lat = click_coords["lat"] if click_coords else gps_lat
 default_lon = click_coords["lng"] if click_coords else gps_lon
 
-# Campos de coordenadas editáveis
-final_lat = st.text_input("Latitude", value=str(default_lat) if default_lat else "")
-final_lon = st.text_input("Longitude", value=str(default_lon) if default_lon else "")
+# Campos de coordenadas editáveis lado a lado
+st.markdown("### Coordenadas")
+col1, col2 = st.columns(2)
+with col1:
+    final_lat = st.text_input("Latitude", value=str(default_lat) if default_lat else "")
+with col2:
+    final_lon = st.text_input("Longitude", value=str(default_lon) if default_lon else "")
 
 if final_lat and final_lon:
     st.success(f"Localização definida: {final_lat}, {final_lon}")
