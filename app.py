@@ -39,13 +39,17 @@ map_data = st_folium(mapa, width=700, height=400)
 
 # Substituir por clique
 click_coords = map_data.get("last_clicked")
-final_lat = click_coords["lat"] if click_coords else gps_lat
-final_lon = click_coords["lng"] if click_coords else gps_lon
+default_lat = click_coords["lat"] if click_coords else gps_lat
+default_lon = click_coords["lng"] if click_coords else gps_lon
+
+# Campos de coordenadas editáveis
+final_lat = st.text_input("Latitude", value=str(default_lat) if default_lat else "")
+final_lon = st.text_input("Longitude", value=str(default_lon) if default_lon else "")
 
 if final_lat and final_lon:
     st.success(f"Localização definida: {final_lat}, {final_lon}")
 else:
-    st.warning("Localização não definida. Habilite o GPS ou clique no mapa.")
+    st.warning("Localização não definida. Habilite o GPS, clique no mapa ou preencha manualmente.")
 
 if st.button("Enviar Denúncia"):
     if not final_lat or not final_lon or not bairro or not descricao:
@@ -55,8 +59,8 @@ if st.button("Enviar Denúncia"):
             "tipo": tipo,
             "bairro": bairro,
             "descricao": descricao,
-            "latitude": final_lat,
-            "longitude": final_lon,
+            "latitude": float(final_lat),
+            "longitude": float(final_lon),
             "imagem": imagem.name if imagem else ""
         }
         st.session_state.denuncias = pd.concat([st.session_state.denuncias, pd.DataFrame([nova])], ignore_index=True)
