@@ -60,7 +60,7 @@ else:
             if not valid_coords_df.empty:
                 lat_mean = valid_coords_df["_Coordenadas_latitude"].mean()
                 lon_mean = valid_coords_df["_Coordenadas_longitude"].mean()
-                mapa = folium.Map(location=[lat_mean, lon_mean], zoom_start=14)
+                mapa = folium.Map(location=[lat_mean, lon_mean], zoom_start=13)
                 for _, row in valid_coords_df.iterrows():
                     lat = row["_Coordenadas_latitude"]
                     lon = row["_Coordenadas_longitude"]
