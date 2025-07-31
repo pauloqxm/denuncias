@@ -93,7 +93,9 @@ if aba == "📨 Enviar Denúncia":
         final_lon = click_coords["lng"]
 
     # Submit button logic
-    if st.button("Enviar Denúncia"):
+    imagem_url = ""
+
+if st.button("Enviar Denúncia"):
         if not final_lat or not final_lon or not bairro or not descricao:
             st.warning("Preencha todos os campos obrigatórios e defina a localização.")
         else:
