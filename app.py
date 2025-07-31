@@ -8,15 +8,17 @@ import os
 
 st.set_page_config(page_title="Mapeador de Denúncias", layout="centered")
 
+# Initialize session state for complaints
 if "denuncias" not in st.session_state:
     if os.path.exists("denuncias.csv"):
         st.session_state.denuncias = pd.read_csv("denuncias.csv")
     else:
         st.session_state.denuncias = pd.DataFrame(columns=["tipo", "bairro", "descricao", "latitude", "longitude", "imagem"])
 
-# Menu lateral
+# Sidebar menu
 aba = st.sidebar.radio("Escolha uma aba:", ["📨 Enviar Denúncia", "📊 Painel de Visualização"])
 
+# Clear form fields if needed
 if st.session_state.get("limpar"):
     st.session_state["bairro"] = ""
     st.session_state["descricao"] = ""
@@ -27,17 +29,19 @@ if st.session_state.get("limpar"):
 if aba == "📨 Enviar Denúncia":
     st.title("📝 Enviar Nova Denúncia")
 
+    # Form fields
     tipo = st.selectbox("Tipo:", ["Denúncia", "Obra"])
     bairro = st.text_input("Bairro:", key="bairro")
     descricao = st.text_area("Descrição:", key="descricao")
     imagem = st.file_uploader("Foto (opcional):", type=["png", "jpg", "jpeg"])
 
+    # Get current location
     st.markdown("### 📍 Capturar Localização Atual")
     coords = st_javascript("await new Promise((resolve) => navigator.geolocation.getCurrentPosition((pos) => resolve({lat: pos.coords.latitude, lon: pos.coords.longitude})))")
     gps_lat = coords.get("lat") if coords else None
     gps_lon = coords.get("lon") if coords else None
 
-    # Coordenadas lado a lado acima do mapa
+    # Coordinates input
     st.markdown("### Coordenadas")
     col1, col2 = st.columns(2)
     with col1:
@@ -45,7 +49,7 @@ if aba == "📨 Enviar Denúncia":
     with col2:
         final_lon = st.text_input("Longitude", value=str(gps_lon) if gps_lon else "", key="longitude")
 
-    # Mapa
+    # Interactive map
     map_center = [float(final_lat), float(final_lon)] if final_lat and final_lon else [-5.2, -39.29]
     mapa = folium.Map(location=map_center, zoom_start=15 if gps_lat else 13)
 
@@ -62,38 +66,39 @@ if aba == "📨 Enviar Denúncia":
         final_lat = click_coords["lat"]
         final_lon = click_coords["lng"]
 
+    # Submit button logic
     if st.button("Enviar Denúncia"):
         if not final_lat or not final_lon or not bairro or not descricao:
             st.warning("Preencha todos os campos obrigatórios e defina a localização.")
         else:
+            # Save image if provided
+            imagem_path = ""
             if imagem:
                 pasta = "imagens"
                 os.makedirs(pasta, exist_ok=True)
                 caminho_arquivo = os.path.join(pasta, imagem.name)
                 with open(caminho_arquivo, "wb") as f:
                     f.write(imagem.getbuffer())
-    else:
-        if imagem:
-            pasta = "imagens"
-            os.makedirs(pasta, exist_ok=True)
-            caminho_arquivo = os.path.join(pasta, imagem.name)
-            with open(caminho_arquivo, "wb") as f:
-                f.write(imagem.getbuffer())
-            st.warning("Preencha todos os campos obrigatórios e defina a localização.")
-        else:
+                imagem_path = imagem.name
+            
+            # Create new complaint record
             nova = {
                 "tipo": tipo,
                 "bairro": bairro,
                 "descricao": descricao,
                 "latitude": float(final_lat),
                 "longitude": float(final_lon),
-                "imagem": imagem.name if imagem else ""
+                "imagem": imagem_path
             }
+            
+            # Update data and save to CSV
             st.session_state.denuncias = pd.concat(
                 [st.session_state.denuncias, pd.DataFrame([nova])],
                 ignore_index=True
             )
             st.session_state.denuncias.to_csv("denuncias.csv", index=False)
+            
+            # Show success and clear form
             st.success("Denúncia enviada com sucesso!")
             st.balloons()
             st.session_state["limpar"] = True
@@ -106,6 +111,7 @@ elif aba == "📊 Painel de Visualização":
     if df.empty:
         st.info("Nenhuma denúncia cadastrada ainda.")
     else:
+        # Map visualization
         st.subheader("📍 Mapa das Denúncias")
         mapa = folium.Map(location=[-5.2, -39.29], zoom_start=13)
         for _, row in df.iterrows():
@@ -122,6 +128,7 @@ elif aba == "📊 Painel de Visualização":
             ).add_to(mapa)
         st_folium(mapa, width=700, height=400)
 
+        # Charts
         st.subheader("📈 Gráficos")
         grafico_tipo = alt.Chart(df).mark_bar().encode(
             x='tipo:N',
@@ -137,5 +144,6 @@ elif aba == "📊 Painel de Visualização":
         ).properties(title="Denúncias por Bairro")
         st.altair_chart(grafico_bairro, use_container_width=True)
 
+        # Data table
         st.subheader("📄 Lista de Denúncias")
         st.dataframe(df.reset_index(drop=True))
