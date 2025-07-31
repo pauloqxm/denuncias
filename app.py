@@ -4,12 +4,15 @@ import folium
 from streamlit_folium import st_folium
 from streamlit_javascript import st_javascript
 import altair as alt
+import os
 
 st.set_page_config(page_title="Mapeador de Denúncias", layout="centered")
 
-# Inicializa o DataFrame no estado da sessão
 if "denuncias" not in st.session_state:
-    st.session_state.denuncias = pd.DataFrame(columns=["tipo", "bairro", "descricao", "latitude", "longitude", "imagem"])
+    if os.path.exists("denuncias.csv"):
+        st.session_state.denuncias = pd.read_csv("denuncias.csv")
+    else:
+        st.session_state.denuncias = pd.DataFrame(columns=["tipo", "bairro", "descricao", "latitude", "longitude", "imagem"])
 
 # Menu lateral
 aba = st.sidebar.radio("Escolha uma aba:", ["📨 Enviar Denúncia", "📊 Painel de Visualização"])
@@ -47,13 +50,12 @@ if aba == "📨 Enviar Denúncia":
     map_data = st_folium(mapa, width=700, height=400)
     click_coords = map_data.get("last_clicked")
     if click_coords:
+        st.session_state.latitude = str(click_coords["lat"])
+        st.session_state.longitude = str(click_coords["lng"])
         final_lat = click_coords["lat"]
         final_lon = click_coords["lng"]
 
     if st.button("Enviar Denúncia"):
-    enviado = True
-else:
-    enviado = False
         if not final_lat or not final_lon or not bairro or not descricao:
             st.warning("Preencha todos os campos obrigatórios e defina a localização.")
         else:
@@ -65,13 +67,17 @@ else:
                 "longitude": float(final_lon),
                 "imagem": imagem.name if imagem else ""
             }
-            st.session_state.denuncias = pd.concat([st.session_state.denuncias, pd.DataFrame([nova])], ignore_index=True)
+            st.session_state.denuncias = pd.concat(
+                [st.session_state.denuncias, pd.DataFrame([nova])],
+                ignore_index=True
+            )
+            st.session_state.denuncias.to_csv("denuncias.csv", index=False)
             st.success("Denúncia enviada com sucesso!")
             st.balloons()
-            st.session_state["bairro"] = ""
-            st.session_state["descricao"] = ""
-            st.session_state["latitude"] = ""
-            st.session_state["longitude"] = ""
+            st.session_state.bairro = ""
+            st.session_state.descricao = ""
+            st.session_state.latitude = ""
+            st.session_state.longitude = ""
 
 elif aba == "📊 Painel de Visualização":
     st.title("📊 Painel de Denúncias")
