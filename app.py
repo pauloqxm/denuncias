@@ -71,15 +71,23 @@ if aba == "📨 Enviar Denúncia":
         if not final_lat or not final_lon or not bairro or not descricao:
             st.warning("Preencha todos os campos obrigatórios e defina a localização.")
         else:
-            # Save image if provided
             imagem_path = ""
-            if imagem:
-                pasta = "imagens"
-                os.makedirs(pasta, exist_ok=True)
-                caminho_arquivo = os.path.join(pasta, imagem.name)
-                with open(caminho_arquivo, "wb") as f:
-                    f.write(imagem.getbuffer())
-                imagem_path = imagem.name
+            if imagem is not None:
+                try:
+                    pasta = "imagens"
+                    os.makedirs(pasta, exist_ok=True)
+                    # Create unique filename to avoid overwrites
+                    timestamp = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
+                    filename = f"{timestamp}_{imagem.name}"
+                    caminho_arquivo = os.path.join(pasta, filename)
+                    
+                    with open(caminho_arquivo, "wb") as f:
+                        f.write(imagem.getbuffer())
+                    imagem_path = filename
+                    st.success(f"Imagem salva como: {filename}")
+                except Exception as e:
+                    st.error(f"Erro ao salvar imagem: {str(e)}")
+                    imagem_path = ""
             
             # Create new complaint record
             nova = {
@@ -115,7 +123,9 @@ elif aba == "📊 Painel de Visualização":
         st.subheader("📍 Mapa das Denúncias")
         mapa = folium.Map(location=[-5.2, -39.29], zoom_start=13)
         for _, row in df.iterrows():
-            imagem_html = f'<img src="imagens/{row["imagem"]}" width="200">' if row["imagem"] else ""
+            imagem_html = ""
+            if row["imagem"] and os.path.exists(os.path.join("imagens", row["imagem"])):
+                imagem_html = f'<img src="imagens/{row["imagem"]}" width="200">'
             popup_html = f"""
                 <b>{row['tipo']} em {row['bairro']}</b><br>
                 {row['descricao']}<br>
