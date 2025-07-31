@@ -94,7 +94,7 @@ if aba == "📨 Enviar Denúncia":
                 ignore_index=True
             )
             st.session_state.denuncias.to_csv("denuncias.csv", index=False)
-            st.success("Denúncia enviada com sucesso!")
+            st.session_state["enviado"] = True
             st.balloons()
             st.session_state["limpar"] = True
 
