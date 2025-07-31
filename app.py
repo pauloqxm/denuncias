@@ -17,6 +17,13 @@ if "denuncias" not in st.session_state:
 # Menu lateral
 aba = st.sidebar.radio("Escolha uma aba:", ["📨 Enviar Denúncia", "📊 Painel de Visualização"])
 
+if st.session_state.get("limpar"):
+    st.session_state["bairro"] = ""
+    st.session_state["descricao"] = ""
+    st.session_state["latitude"] = ""
+    st.session_state["longitude"] = ""
+    del st.session_state["limpar"]
+
 if aba == "📨 Enviar Denúncia":
     st.title("📝 Enviar Nova Denúncia")
 
@@ -74,10 +81,7 @@ if aba == "📨 Enviar Denúncia":
             st.session_state.denuncias.to_csv("denuncias.csv", index=False)
             st.success("Denúncia enviada com sucesso!")
             st.balloons()
-            st.session_state["bairro"] = ""
-            st.session_state["descricao"] = ""
-            st.session_state["latitude"] = ""
-            st.session_state["longitude"] = ""
+            st.session_state["limpar"] = True
 
 elif aba == "📊 Painel de Visualização":
     st.title("📊 Painel de Denúncias")
