@@ -65,6 +65,7 @@ if aba == "📨 Enviar Denúncia":
             st.session_state.denuncias = pd.concat([st.session_state.denuncias, pd.DataFrame([nova])], ignore_index=True)
             st.session_state.denuncias.to_csv("denuncias.csv", index=False)
             st.success("Denúncia enviada com sucesso!")
+            st.experimental_rerun()
             st.balloons()
 
 elif aba == "📊 Painel de Visualização":
