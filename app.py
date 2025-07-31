@@ -64,7 +64,14 @@ if aba == "📨 Enviar Denúncia":
 
     if st.button("Enviar Denúncia"):
         if not final_lat or not final_lon or not bairro or not descricao:
-        pass
+            st.warning("Preencha todos os campos obrigatórios e defina a localização.")
+        else:
+            if imagem:
+                pasta = "imagens"
+                os.makedirs(pasta, exist_ok=True)
+                caminho_arquivo = os.path.join(pasta, imagem.name)
+                with open(caminho_arquivo, "wb") as f:
+                    f.write(imagem.getbuffer())
     else:
         if imagem:
             pasta = "imagens"
