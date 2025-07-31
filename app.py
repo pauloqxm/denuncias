@@ -5,6 +5,31 @@ from streamlit_folium import st_folium
 from streamlit_javascript import st_javascript
 import altair as alt
 import os
+import requests
+
+def upload_imagem_github(imagem, nome_arquivo, token, repo, branch="main"):
+    url = f"https://api.github.com/repos/{repo}/contents/imagens/{nome_arquivo}"
+    imagem_base64 = base64.b64encode(imagem.getbuffer()).decode("utf-8")
+
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "message": f"Upload {nome_arquivo}",
+        "content": imagem_base64,
+        "branch": branch
+    }
+
+    response = requests.put(url, headers=headers, json=data)
+
+    if response.status_code in [201, 200]:
+        return f"https://raw.githubusercontent.com/{repo}/{branch}/imagens/{nome_arquivo}"
+    else:
+        st.error("Erro ao enviar imagem para o GitHub")
+        st.text(response.json())
+        return ""
 import numpy as np
 
 st.set_page_config(page_title="Mapeador de Denúncias", layout="centered")
@@ -97,7 +122,7 @@ if aba == "📨 Enviar Denúncia":
                 "descricao": descricao,
                 "latitude": float(final_lat),
                 "longitude": float(final_lon),
-                "imagem": imagem_path
+                "imagem": imagem_url
             }
             
             # Update data and save to CSV
