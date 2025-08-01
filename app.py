@@ -7,6 +7,9 @@ from streamlit_folium import folium_static
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 st.title("📋 Denúncias Recebidas")
 
+if st.button("🔄 Recarregar dados"):
+    st.experimental_rerun()
+
 def carregar_dados():
     try:
         url = "https://docs.google.com/spreadsheets/d/1MV2b4e3GNc_rhA32jeMuVNhUQWz6HkP7xrC42VscYIk/export?format=csv"
