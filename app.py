@@ -14,6 +14,9 @@ def carregar_dados():
         df = pd.read_csv(url)
         df = df.dropna(how='all')
 
+        df.columns = df.columns.str.strip()
+        df.rename(columns={"_submission_time": "SubmissionDate"}, inplace=True)
+
         df["Latitude"] = pd.to_numeric(df["Latitude"].astype(str).str.replace(",", "."), errors='coerce')
         df["Longitude"] = pd.to_numeric(df["Longitude"].astype(str).str.replace(",", "."), errors='coerce')
 
