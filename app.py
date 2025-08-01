@@ -8,6 +8,10 @@ from datetime import datetime
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 st.title("📋 Denúncias Recebidas")
 
+# Inicializar session state para controle de recarregamento
+if 'reload' not in st.session_state:
+    st.session_state.reload = False
+
 def carregar_dados():
     try:
         url = "https://docs.google.com/spreadsheets/d/1MV2b4e3GNc_rhA32jeMuVNhUQWz6HkP7xrC42VscYIk/export?format=csv"
@@ -38,16 +42,22 @@ def carregar_dados():
         st.error(f"Erro ao carregar os dados: {e}")
         return pd.DataFrame()
 
-# Carregar dados
-df = carregar_dados()
-
-# Botão de recarregar - deve vir após o carregamento inicial
+# Botão de recarregar - usando session state
 if st.button("🔄 Recarregar dados"):
+    st.session_state.reload = True
+
+# Carregar dados (ou recarregar se necessário)
+if st.session_state.reload:
+    df = carregar_dados()
+    st.session_state.reload = False
     st.experimental_rerun()
+else:
+    df = carregar_dados()
 
 if df.empty:
     st.error("❌ Não foi possível carregar os dados ou o arquivo está vazio.")
 else:
+    # Restante do seu código permanece igual...
     # Verificar colunas necessárias
     colunas_necessarias = ["Tipo de Denúncia", "Bairro", "Nome", "Breve relato", "SubmissionDate", "Latitude", "Longitude"]
     colunas_faltantes = [col for col in colunas_necessarias if col not in df.columns]
