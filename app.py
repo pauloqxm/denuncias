@@ -7,7 +7,7 @@ from streamlit_folium import folium_static
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 st.title("📋 Denúncias Recebidas")
 
-if st.button("🔄 Recarregar dados"):
+if st.button("🔄 Recarregar dados", key="reload_button"):
     st.experimental_rerun()
 
 def carregar_dados():
@@ -31,7 +31,7 @@ def carregar_dados():
 
 df = carregar_dados()
 
-if st.button("🔄 Recarregar dados"):
+if st.button("🔄 Recarregar dados", key="reload_button"):
     st.experimental_rerun()
 
 
