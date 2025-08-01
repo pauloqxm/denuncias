@@ -10,13 +10,13 @@ st.title("📋 Denúncias Recebidas")
 @st.cache_data
 def carregar_dados():
     try:
-        df = pd.read_csv("fiscaliza.csv")
+        url = "https://docs.google.com/spreadsheets/d/1MV2b4e3GNc_rhA32jeMuVNhUQWz6HkP7xrC42VscYIk/export?format=csv"
+        df = pd.read_csv(url)
         df = df.dropna(how='all')
 
-        if "_Coordenadas_latitude" in df.columns:
-            df["_Coordenadas_latitude"] = pd.to_numeric(df["_Coordenadas_latitude"].astype(str).str.replace(",", "."), errors='coerce')
-        if "_Coordenadas_longitude" in df.columns:
-            df["_Coordenadas_longitude"] = pd.to_numeric(df["_Coordenadas_longitude"].astype(str).str.replace(",", "."), errors='coerce')
+        df["Latitude"] = pd.to_numeric(df["Latitude"].astype(str).str.replace(",", "."), errors='coerce')
+        df["Longitude"] = pd.to_numeric(df["Longitude"].astype(str).str.replace(",", "."), errors='coerce')
+
         if "Foto_URL" in df.columns:
             df["Foto_URL"] = df["Foto_URL"].astype(str).str.replace(",", ".", regex=False)
         return df
@@ -29,7 +29,7 @@ df = carregar_dados()
 if df.empty:
     st.error("❌ Não foi possível carregar os dados ou o arquivo está vazio.")
 else:
-    colunas_necessarias = ["Tipo de Denúncia", "Bairro", "Nome", "Breve relato", "_submission_time"]
+    colunas_necessarias = ["Tipo de Denúncia", "Bairro", "Nome", "Breve relato", "SubmissionDate"]
     colunas_faltantes = [col for col in colunas_necessarias if col not in df.columns]
     if colunas_faltantes:
         st.error(f"❌ Colunas faltantes: {', '.join(colunas_faltantes)}")
@@ -47,15 +47,15 @@ else:
 
         st.subheader("🗺️ Mapa das Denúncias")
 
-        if "_Coordenadas_latitude" in filtered_df.columns and "_Coordenadas_longitude" in filtered_df.columns:
-            valid_coords_df = filtered_df[filtered_df["_Coordenadas_latitude"].notna() & filtered_df["_Coordenadas_longitude"].notna()]
+        if "Latitude" in filtered_df.columns and "Longitude" in filtered_df.columns:
+            valid_coords_df = filtered_df[filtered_df["Latitude"].notna() & filtered_df["Longitude"].notna()]
             if not valid_coords_df.empty:
-                lat_mean = valid_coords_df["_Coordenadas_latitude"].mean()
-                lon_mean = valid_coords_df["_Coordenadas_longitude"].mean()
+                lat_mean = valid_coords_df["Latitude"].mean()
+                lon_mean = valid_coords_df["Longitude"].mean()
                 mapa = folium.Map(location=[lat_mean, lon_mean], zoom_start=13)
                 for _, row in valid_coords_df.iterrows():
-                    lat = row["_Coordenadas_latitude"]
-                    lon = row["_Coordenadas_longitude"]
+                    lat = row["Latitude"]
+                    lon = row["Longitude"]
                     foto_url = row.get("Foto_URL", "")
                     imagem_html = ""
                     if pd.notna(foto_url) and str(foto_url).strip().startswith(('http://', 'https://')):
@@ -78,4 +78,4 @@ else:
             st.warning("⚠️ Colunas de coordenadas não encontradas no arquivo.")
 
         st.subheader("📄 Lista de Denúncias Filtradas")
-        st.dataframe(filtered_df[["Nome", "Bairro", "Tipo de Denúncia", "Breve relato", "_submission_time"]], use_container_width=True)
+        st.dataframe(filtered_df[["Nome", "Bairro", "Tipo de Denúncia", "Breve relato", "SubmissionDate"]], use_container_width=True)
