@@ -4,6 +4,7 @@ import folium
 from streamlit_folium import folium_static
 from datetime import datetime
 
+# Configuração da página
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 st.title("📋 Denúncias Recebidas")
 
@@ -30,18 +31,19 @@ def carregar_dados():
         # Tratar URLs de fotos
         if "Foto_URL" in df.columns:
             df["Foto_URL"] = df["Foto_URL"].astype(str).str.replace(",", ".", regex=False)
-            df["Foto_URL"] = df["Foto_URL"].apply(lambda x: x if x.startswith(('http://', 'https://')) else None)
+            df["Foto_URL"] = df["Foto_URL"].apply(lambda x: x if str(x).startswith(('http://', 'https://')) else None)
             
         return df
     except Exception as e:
         st.error(f"Erro ao carregar os dados: {e}")
         return pd.DataFrame()
 
-# Botão de recarregar (único)
-if st.button("🔄 Recarregar dados", key="reload_button"):
-    st.experimental_rerun()
-
+# Carregar dados
 df = carregar_dados()
+
+# Botão de recarregar - deve vir após o carregamento inicial
+if st.button("🔄 Recarregar dados"):
+    st.experimental_rerun()
 
 if df.empty:
     st.error("❌ Não foi possível carregar os dados ou o arquivo está vazio.")
@@ -81,7 +83,7 @@ else:
                 foto_url = row.get("Foto_URL", "")
                 
                 imagem_html = ""
-                if pd.notna(foto_url) and foto_url.startswith(('http://', 'https://')):
+                if pd.notna(foto_url) and str(foto_url).startswith(('http://', 'https://')):
                     imagem_html = f'<img src="{foto_url}" width="200" style="margin-top:10px;"><br>'
                 
                 popup_info = (
