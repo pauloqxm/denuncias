@@ -85,9 +85,10 @@ else:
                 lon = row["Longitude"]
                 foto_url = row.get("Foto_URL", "")
                 
+                # Imagem clicável que abre em nova aba
                 imagem_html = ""
                 if pd.notna(foto_url) and str(foto_url).startswith(('http://', 'https://')):
-                    imagem_html = f'<img src="{foto_url}" width="200" style="margin-top:10px;"><br>'
+                    imagem_html = f'<a href="{foto_url}" target="_blank" rel="noopener noreferrer"><img src="{foto_url}" width="200" style="margin-top:10px;"></a><br>'
                 
                 popup_info = (
                     "<div style='font-family: Arial, sans-serif; border: 2px solid #2A4D9B; border-radius: 8px; padding: 8px; background-color: #f9f9f9;'>"
@@ -107,16 +108,13 @@ else:
             st.warning("⚠️ Nenhuma denúncia com coordenadas válidas para exibir no mapa.")
 
         # Tabela de denúncias
-
-        # Criar link clicável para imagens
-        if "Foto_URL" in filtered_df.columns:
-            filtered_df["Foto_URL"] = filtered_df["Foto_URL"].apply(
-                lambda x: f'<a href="{x}" target="_blank">Ver imagem</a>' if pd.notna(x) and x.startswith("http") else ""
-            )
         st.subheader("📄 Lista de Denúncias Filtradas")
-        st.write("Clique em 'Ver imagem' para abrir em nova aba.")
-        st.markdown(
-    filtered_df[["Nome", "Bairro", "Tipo de Denúncia", "Breve relato", "SubmissionDate", "Foto_URL"]].to_html(escape=False, index=False),
-    unsafe_allow_html=True
-)
-
+        st.dataframe(
+            filtered_df[["Nome", "Bairro", "Tipo de Denúncia", "Breve relato", "SubmissionDate"]],
+            use_container_width=True,
+            column_config={
+                "SubmissionDate": "Data/Hora",
+                "Tipo de Denúncia": "Tipo",
+                "Breve relato": "Relato"
+            }
+        )
