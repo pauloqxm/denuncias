@@ -115,5 +115,8 @@ else:
             )
         st.subheader("📄 Lista de Denúncias Filtradas")
         st.write("Clique em 'Ver imagem' para abrir em nova aba.")
-        st.write(filtered_df[["Nome", "Bairro", "Tipo de Denúncia", "Breve relato", "SubmissionDate", "Foto_URL"]].to_html(escape=False, index=False), unsafe_allow_html=True)
+        st.markdown(
+    filtered_df[["Nome", "Bairro", "Tipo de Denúncia", "Breve relato", "SubmissionDate", "Foto_URL"]].to_html(escape=False, index=False),
+    unsafe_allow_html=True
+)
 
