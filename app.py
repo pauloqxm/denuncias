@@ -107,13 +107,13 @@ else:
             st.warning("⚠️ Nenhuma denúncia com coordenadas válidas para exibir no mapa.")
 
         # Tabela de denúncias
+
+        # Criar link clicável para imagens
+        if "Foto_URL" in filtered_df.columns:
+            filtered_df["Foto_URL"] = filtered_df["Foto_URL"].apply(
+                lambda x: f'<a href="{x}" target="_blank">Ver imagem</a>' if pd.notna(x) and x.startswith("http") else ""
+            )
         st.subheader("📄 Lista de Denúncias Filtradas")
-        st.dataframe(
-            filtered_df[["Nome", "Bairro", "Tipo de Denúncia", "Breve relato", "SubmissionDate"]],
-            use_container_width=True,
-            column_config={
-                "SubmissionDate": "Data/Hora",
-                "Tipo de Denúncia": "Tipo",
-                "Breve relato": "Relato"
-            }
-        )
+        st.write("Clique em 'Ver imagem' para abrir em nova aba.")
+        st.write(filtered_df[["Nome", "Bairro", "Tipo de Denúncia", "Breve relato", "SubmissionDate", "Foto_URL"]].to_html(escape=False, index=False), unsafe_allow_html=True)
+
