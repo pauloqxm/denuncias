@@ -18,7 +18,7 @@ st.markdown("""
     }
     [data-testid="stHeader"]::before {
         box-shadow: none;
-        border-bottom: 1px solid #003060;
+        border-bottom: 5px solid #003060;
     }
     .st-emotion-cache-10trblm {
         color: white;
