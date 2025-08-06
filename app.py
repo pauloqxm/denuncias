@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import folium
@@ -102,7 +101,12 @@ else:
                     f"{imagem_html}</div>"
                 )
                 popup = folium.Popup(popup_info, max_width=300)
-                folium.Marker([lat, lon], popup=popup, icon=folium.Icon(color="blue", icon="info-sign")).add_to(mapa)
+                popup = folium.Popup(popup_info, max_width=300)
+                folium.Marker(
+                    [lat, lon],
+                    popup=popup,
+                    icon=folium.CustomIcon("https://i.ibb.co/Kp64sjfH/LUPA.png", icon_size=(30, 30))
+                ).add_to(mapa)
             
             folium_static(mapa, width=1000)
         else:
