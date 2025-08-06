@@ -11,7 +11,7 @@ st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 st.markdown("""
     <style>
     [data-testid="stHeader"] {
-        background-color: #004080;
+        background-color: #04a5c9;
     }
     [data-testid="stHeader"] h1 {
         color: white;
