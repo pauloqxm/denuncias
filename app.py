@@ -3,20 +3,29 @@ import pandas as pd
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime
+import locale
 
 # Configuração da página
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 
 
-st.markdown("""
-    <style>
-    /* Oculta a barra original do Streamlit */
-    [data-testid="stHeader"] {
-        visibility: hidden;
-    }
+# Define o locale para exibir data em português
+try:
+    locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')
+except:
+    locale.setlocale(locale.LC_TIME, 'pt_BR')
 
-    /* Barra personalizada fixa no topo */
-    .custom-header {
+# Gera a data formatada em português
+data_hoje = datetime.now().strftime('%A, %d de %B de %Y').capitalize()
+
+# Insere o cabeçalho fixo personalizado
+st.markdown(f"""
+    <style>
+    [data-testid="stHeader"] {{
+        visibility: hidden;
+    }}
+
+    .custom-header {{
         position: fixed;
         top: 0;
         left: 0;
@@ -31,33 +40,18 @@ st.markdown("""
         display: flex;
         justify-content: space-between;
         align-items: center;
-    }
+        font-family: 'Arial', sans-serif;
+    }}
 
-    .custom-header span {
-        margin-right: 12px;
-    }
-
-    .main .block-container {
+    .main .block-container {{
         padding-top: 80px;
-    }
+    }}
     </style>
 
     <div class="custom-header">
         <div>🔎 Você Fiscaliza | Quixeramobim, Ceará</div>
-        <div id="data-atual"></div>
+        <div>{data_hoje}</div>
     </div>
-
-    <script>
-    const dias = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
-    const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
-    const hoje = new Date();
-    const diaSemana = dias[hoje.getDay()];
-    const dia = String(hoje.getDate()).padStart(2, '0');
-    const mes = meses[hoje.getMonth()];
-    const ano = hoje.getFullYear();
-    const dataFormatada = `${diaSemana}, ${dia} de ${mes} de ${ano}`;
-    document.getElementById("data-atual").innerText = dataFormatada;
-    </script>
 """, unsafe_allow_html=True)
 
 
