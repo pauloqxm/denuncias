@@ -53,11 +53,19 @@ st.markdown(f"""
         padding: 10px 32px;
         font-family: Tahoma, sans-serif;
         border-bottom: 3px solid #fad905;
-        z-index: 9999;
+        z-index: 9999;     
+        
+    }}
+
+    .header-content {{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         text-align: center;
         line-height: 1.4;
     }}
-
+    
     .header-top {{
         display: flex;
         justify-content: space-between;
