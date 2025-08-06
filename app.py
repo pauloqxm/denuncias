@@ -88,7 +88,7 @@ st.markdown(f"""
         <div class="header-top">
             <div class="header-title">🔎 Você Fiscaliza | Quixeramobim - Ceará</div>            
         </div>
-        <div class="header-date">{data_hoje}</div>
+        <div class="header-date">📅 {data_hoje}</div>
     </div>
 """, unsafe_allow_html=True)
 
