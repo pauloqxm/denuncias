@@ -79,6 +79,33 @@ else:
             lat_mean = valid_coords_df["Latitude"].mean()
             lon_mean = valid_coords_df["Longitude"].mean()
             mapa = folium.Map(location=[lat_mean, lon_mean], zoom_start=13)
+
+            folium.TileLayer(
+                tiles='https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+                attr='Google Satellite',
+                name='Google Satélite',
+                overlay=False,
+                control=True
+            ).add_to(mapa)
+
+            folium.TileLayer(
+                tiles='https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}',
+                attr='Google Streets',
+                name='Google Ruas',
+                overlay=False,
+                control=True
+            ).add_to(mapa)
+
+            folium.TileLayer(
+                tiles='https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
+                attr='Google Terrain',
+                name='Google Terreno',
+                overlay=False,
+                control=True
+            ).add_to(mapa)
+
+            folium.LayerControl().add_to(mapa)
+
             
             for _, row in valid_coords_df.iterrows():
                 lat = row["Latitude"]
