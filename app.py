@@ -8,23 +8,39 @@ from datetime import datetime
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 
 
+
 st.markdown("""
     <style>
     [data-testid="stHeader"] {
         background-color: #004080;
-    }
-    [data-testid="stHeader"] h1 {
-        color: white;
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
     }
     [data-testid="stHeader"]::before {
         box-shadow: none;
         border-bottom: 1px solid #003060;
     }
-    .st-emotion-cache-10trblm {
+    .custom-header-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .custom-header-content img {
+        height: 40px;
+    }
+    .custom-header-content h1 {
         color: white;
+        font-size: 20px;
+        margin: 0;
     }
     </style>
+    <div class="custom-header-content">
+        <img src="https://i.ibb.co/Kp64sjfH/LUPA.png" alt="Ícone lupa">
+        <h1>Plataforma Você Fiscaliza</h1>
+    </div>
 """, unsafe_allow_html=True)
+
 
 
 st.title("📋 Denúncias Recebidas")
