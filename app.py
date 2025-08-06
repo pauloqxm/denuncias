@@ -6,6 +6,23 @@ from datetime import datetime
 
 # Configuração da página
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
+
+st.markdown(
+    """
+    <style>
+    header.css-18ni7ap.e8zbici2 {
+        background-color: #004080;
+        color: white;
+    }
+
+    .css-10trblm.e16nr0p30 {
+        color: white;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 st.title("📋 Denúncias Recebidas")
 
 def carregar_dados():
