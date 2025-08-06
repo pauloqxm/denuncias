@@ -132,7 +132,7 @@ else:
                 folium.Marker(
                     [lat, lon],
                     popup=popup,
-                    icon=folium.CustomIcon("https://i.ibb.co/Kp64sjfH/LUPA.png", icon_size=(30, 30))
+                    icon=folium.CustomIcon("https://i.ibb.co/Kp64sjfH/LUPA.png", icon_size=(35, 35))
                 ).add_to(mapa)
             
             folium_static(mapa, width=1000)
