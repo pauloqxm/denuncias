@@ -8,9 +8,7 @@ import locale
 # Configuração da página
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 
-
-from datetime import datetime
-
+#Barra fixa
 dias_semana = {
     'Monday': 'Segunda-feira',
     'Tuesday': 'Terça-feira',
@@ -36,12 +34,13 @@ meses = {
     'December': 'dezembro'
 }
 
+# Data formatada
 agora = datetime.now()
 dia_semana = dias_semana[agora.strftime('%A')]
 mes = meses[agora.strftime('%B')]
 data_hoje = f"{dia_semana}, {agora.day:02d} de {mes} de {agora.year}"
 
-# Cabeçalho personalizado
+# Cabeçalho customizado
 st.markdown(f"""
     <style>
     [data-testid="stHeader"] {{
@@ -55,25 +54,23 @@ st.markdown(f"""
         width: 100%;
         background-color: #04a5c9;
         color: white;
-        padding: 16px 32px;
-        font-size: 20px;
+        padding: 10px 32px;
+        font-size: 12px;
+        font-family: Tahoma, sans-serif;
         font-weight: bold;
-        border-bottom: 3px solid #fad905;
+        border-bottom: 5px solid #003060;
         z-index: 9999;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-family: 'Arial', sans-serif;
+        text-align: left;
+        line-height: 1.4;
     }}
 
     .main .block-container {{
-        padding-top: 80px;
+        padding-top: 70px;
     }}
     </style>
 
     <div class="custom-header">
-        <div>🔎 Você Fiscaliza | Quixeramobim, Ceará</div>
-        <div>{data_hoje}</div>
+        🔎 Você Fiscaliza | Quixeramobim, Ceará<br>{data_hoje}
     </div>
 """, unsafe_allow_html=True)
 
