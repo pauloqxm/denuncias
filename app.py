@@ -12,19 +12,32 @@ st.markdown("""
     <style>
     [data-testid="stHeader"] {
         background-color: #04a5c9;
-    }
-    [data-testid="stHeader"] h1 {
-        color: white;
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
     }
     [data-testid="stHeader"]::before {
         box-shadow: none;
         border-bottom: 5px solid #003060;
     }
-    .st-emotion-cache-10trblm {
+    .custom-header-text {
+        font-size: 20px;
         color: white;
+        font-weight: bold;
+        margin-right: auto;
     }
     </style>
+    <script>
+    const header = window.parent.document.querySelector('[data-testid="stHeader"]');
+    if (header && !header.querySelector('.custom-header-text')) {
+        const span = document.createElement('span');
+        span.className = 'custom-header-text';
+        span.textContent = 'Você Fiscaliza';
+        header.insertBefore(span, header.firstChild);
+    }
+    </script>
 """, unsafe_allow_html=True)
+
 
 
 st.title("📋 Denúncias Recebidas")
