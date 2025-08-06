@@ -9,16 +9,39 @@ import locale
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 
 
-# Define o locale para exibir data em português
-try:
-    locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')
-except:
-    locale.setlocale(locale.LC_TIME, 'pt_BR')
+from datetime import datetime
 
-# Gera a data formatada em português
-data_hoje = datetime.now().strftime('%A, %d de %B de %Y').capitalize()
+dias_semana = {
+    'Monday': 'Segunda-feira',
+    'Tuesday': 'Terça-feira',
+    'Wednesday': 'Quarta-feira',
+    'Thursday': 'Quinta-feira',
+    'Friday': 'Sexta-feira',
+    'Saturday': 'Sábado',
+    'Sunday': 'Domingo'
+}
 
-# Insere o cabeçalho fixo personalizado
+meses = {
+    'January': 'janeiro',
+    'February': 'fevereiro',
+    'March': 'março',
+    'April': 'abril',
+    'May': 'maio',
+    'June': 'junho',
+    'July': 'julho',
+    'August': 'agosto',
+    'September': 'setembro',
+    'October': 'outubro',
+    'November': 'novembro',
+    'December': 'dezembro'
+}
+
+agora = datetime.now()
+dia_semana = dias_semana[agora.strftime('%A')]
+mes = meses[agora.strftime('%B')]
+data_hoje = f"{dia_semana}, {agora.day:02d} de {mes} de {agora.year}"
+
+# Cabeçalho personalizado
 st.markdown(f"""
     <style>
     [data-testid="stHeader"] {{
@@ -53,8 +76,6 @@ st.markdown(f"""
         <div>{data_hoje}</div>
     </div>
 """, unsafe_allow_html=True)
-
-
 
 st.title("📋 Denúncias Recebidas")
 
