@@ -1,4 +1,5 @@
 
+
 import streamlit as st
 import pandas as pd
 import folium
@@ -240,7 +241,7 @@ else:
 st.markdown(
     """
     <div style='text-align: center; 
-                border: 2px solid ##fad905;
+                border: 1px solid #004080;
                 padding: 30px; 
                 border-radius: 8px;
                 margin-top: 20px;
