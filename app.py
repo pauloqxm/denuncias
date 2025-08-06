@@ -10,33 +10,34 @@ st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 
 st.markdown("""
     <style>
+    /* Oculta a barra original do Streamlit */
     [data-testid="stHeader"] {
+        visibility: hidden;
+    }
+
+    /* Cria uma nova barra fixa personalizada */
+    .custom-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         background-color: #04a5c9;
-        display: flex;
-        align-items: center;
-        padding-left: 20px;
-    }
-    [data-testid="stHeader"]::before {
-        box-shadow: none;
-        border-bottom: 5px solid #003060;
-    }
-    .custom-header-text {
-        font-size: 20px;
         color: white;
+        padding: 16px 32px;
+        font-size: 22px;
         font-weight: bold;
-        margin-right: auto;
+        border-bottom: 5px solid #003060;
+        z-index: 9999;
+    }
+
+    /* Adiciona espaço no corpo para não sobrepor o conteúdo */
+    .main .block-container {
+        padding-top: 80px;
     }
     </style>
-    <script>
-    const header = window.parent.document.querySelector('[data-testid="stHeader"]');
-    if (header && !header.querySelector('.custom-header-text')) {
-        const span = document.createElement('span');
-        span.className = 'custom-header-text';
-        span.textContent = 'Você Fiscaliza';
-        header.insertBefore(span, header.firstChild);
-    }
-    </script>
+    <div class="custom-header">🔎 Você Fiscaliza</div>
 """, unsafe_allow_html=True)
+
 
 
 
