@@ -52,7 +52,7 @@ st.markdown(f"""
         color: white;
         padding: 10px 32px;
         font-family: Tahoma, sans-serif;
-        border-bottom: 5px solid #003060;
+        border-bottom: 3px solid #fad905;
         z-index: 9999;
     }}
 
@@ -64,7 +64,7 @@ st.markdown(f"""
     }}
 
     .header-title {{
-        font-size: 18px;
+        font-size: 14px;
     }}
 
     .header-location {{
