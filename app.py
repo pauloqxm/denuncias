@@ -7,21 +7,25 @@ from datetime import datetime
 # Configuração da página
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 
-st.markdown(
-    """
+
+st.markdown("""
     <style>
-    header.css-18ni7ap.e8zbici2 {
+    [data-testid="stHeader"] {
         background-color: #004080;
+    }
+    [data-testid="stHeader"] h1 {
         color: white;
     }
-
-    .css-10trblm.e16nr0p30 {
+    [data-testid="stHeader"]::before {
+        box-shadow: none;
+        border-bottom: 1px solid #003060;
+    }
+    .st-emotion-cache-10trblm {
         color: white;
     }
     </style>
-    """,
-    unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
+
 
 st.title("📋 Denúncias Recebidas")
 
