@@ -101,7 +101,7 @@ else:
                     f"{imagem_html}</div>"
                 )
                 popup = folium.Popup(popup_info, max_width=300)
-                folium.Marker([lat, lon], popup=popup, icon=folium.Icon(color="blue", icon="info-sign")).add_to(mapa)
+                folium.Marker([lat, lon], popup=popup, icon=folium.CustomIcon("https://cdn-icons-png.flaticon.com/512/4144/4144517.png", icon_size=(30, 30)),
             
             folium_static(mapa, width=1000)
         else:
