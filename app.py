@@ -7,44 +7,26 @@ from datetime import datetime
 # Configuração da página
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 
-# CSS customizado para o header
+
 st.markdown("""
     <style>
     [data-testid="stHeader"] {
         background-color: #004080;
+    }
+    [data-testid="stHeader"] h1 {
         color: white;
-        padding: 1rem;
-        height: 80px;
-        display: flex;
-        align-items: center;
     }
-    .header-content {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-left: 20px;
+    [data-testid="stHeader"]::before {
+        box-shadow: none;
+        border-bottom: 1px solid #003060;
     }
-    .header-content img {
-        height: 40px;
-    }
-    .header-content h1 {
+    .st-emotion-cache-10trblm {
         color: white;
-        font-size: 1.5rem;
-        margin: 0;
-        font-weight: bold;
-    }
-    [data-testid="stAppViewContainer"] {
-        margin-top: 80px;
     }
     </style>
-    
-    <div class="header-content">
-        <img src="https://i.ibb.co/Kp64sjfH/LUPA.png" alt="Ícone Lupa">
-        <h1>Plataforma Você Fiscaliza</h1>
-    </div>
 """, unsafe_allow_html=True)
 
-# Restante do seu código...
+
 st.title("📋 Denúncias Recebidas")
 
 def carregar_dados():
@@ -204,12 +186,12 @@ st.markdown(
         <div style='display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;'>
             <span>📞 (88) 99999-9999</span>
             <span>|</span>
-            <span>📧 contato@quixeramobim.ce.gov.br</span>
+            <span>📧 vocedenuncia@qvocedenuncia</span>
             <span>|</span>
-            <span><b>Atlas da Prefeitura Municipal de Quixeramobim 2025</b></span>
+            <span><b>Plataforma Você Denuncia</b></span>
         </div>
         <div style='margin-top: 10px;'>
-            🏢 R. Dr. Álvaro Fernandes, 36/42 - Centro, Quixeramobim - CE, 63800-000
+            🏢 R. 14 de Agosto, 123 - Centro, Quixeramobim - CE, 63800-000
         </div>
     </div>
     """,
