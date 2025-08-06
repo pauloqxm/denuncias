@@ -242,7 +242,7 @@ else:
 st.markdown(
     """
     <div style='text-align: center; 
-                border: 1px solid #004080;
+                border: 2px solid #fad905;
                 padding: 30px; 
                 border-radius: 8px;
                 margin-top: 20px;
