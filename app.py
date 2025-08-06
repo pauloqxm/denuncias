@@ -1,5 +1,4 @@
 
-
 import streamlit as st
 import pandas as pd
 import folium
@@ -56,6 +55,8 @@ st.markdown(f"""
         font-family: Tahoma, sans-serif;
         border-bottom: 3px solid #fad905;
         z-index: 9999;
+        text-align: center;
+        line-height: 1.4;
     }}
 
     .header-top {{
