@@ -6,6 +6,8 @@ from streamlit_folium import folium_static
 from datetime import datetime
 import locale
 
+st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
+
 # Configuração da página
 dias_semana = {
     'Monday': 'Segunda-feira',
