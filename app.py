@@ -15,7 +15,7 @@ st.markdown("""
         visibility: hidden;
     }
 
-    /* Cria uma nova barra fixa personalizada */
+    /* Barra personalizada fixa no topo */
     .custom-header {
         position: fixed;
         top: 0;
@@ -24,20 +24,41 @@ st.markdown("""
         background-color: #04a5c9;
         color: white;
         padding: 16px 32px;
-        font-size: 22px;
+        font-size: 20px;
         font-weight: bold;
-        border-bottom: 0px solid #003060;
+        border-bottom: 5px solid #003060;
         z-index: 9999;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
-    /* Adiciona espaço no corpo para não sobrepor o conteúdo */
+    .custom-header span {
+        margin-right: 12px;
+    }
+
     .main .block-container {
         padding-top: 80px;
     }
     </style>
-    <div class="custom-header">🔎 Você Fiscaliza</div>
-""", unsafe_allow_html=True)
 
+    <div class="custom-header">
+        <div>🔎 Você Fiscaliza | Quixeramobim, Ceará</div>
+        <div id="data-atual"></div>
+    </div>
+
+    <script>
+    const dias = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
+    const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+    const hoje = new Date();
+    const diaSemana = dias[hoje.getDay()];
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    const mes = meses[hoje.getMonth()];
+    const ano = hoje.getFullYear();
+    const dataFormatada = `${diaSemana}, ${dia} de ${mes} de ${ano}`;
+    document.getElementById("data-atual").innerText = dataFormatada;
+    </script>
+""", unsafe_allow_html=True)
 
 
 
