@@ -83,8 +83,7 @@ st.markdown(f"""
 
     <div class="custom-header">
         <div class="header-top">
-            <div class="header-title">🔎 Você Fiscaliza</div>
-            <div class="header-location">Quixeramobim, Ceará</div>
+            <div class="header-title">🔎 Você Fiscaliza | Quixeramobim - Ceará</div>            
         </div>
         <div class="header-date">{data_hoje}</div>
     </div>
