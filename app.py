@@ -6,6 +6,37 @@ from datetime import datetime
 import locale
 
 # Configuração da página
+dias_semana = {
+    'Monday': 'Segunda-feira',
+    'Tuesday': 'Terça-feira',
+    'Wednesday': 'Quarta-feira',
+    'Thursday': 'Quinta-feira',
+    'Friday': 'Sexta-feira',
+    'Saturday': 'Sábado',
+    'Sunday': 'Domingo'
+}
+
+meses = {
+    'January': 'janeiro',
+    'February': 'fevereiro',
+    'March': 'março',
+    'April': 'abril',
+    'May': 'maio',
+    'June': 'junho',
+    'July': 'julho',
+    'August': 'agosto',
+    'September': 'setembro',
+    'October': 'outubro',
+    'November': 'novembro',
+    'December': 'dezembro'
+}
+
+agora = datetime.now()
+dia_semana = dias_semana[agora.strftime('%A')]
+mes = meses[agora.strftime('%B')]
+data_hoje = f"{dia_semana}, {agora.day:02d} de {mes} de {agora.year}"
+
+# Cabeçalho customizado com colunas
 st.markdown(f"""
     <style>
     [data-testid="stHeader"] {{
@@ -21,22 +52,21 @@ st.markdown(f"""
         color: white;
         padding: 10px 32px;
         font-family: Tahoma, sans-serif;
-        border-bottom: 5px solid #003060;
+        border-bottom: 3px solid #fad905;
         z-index: 9999;
-    }}
-
-    .header-content {{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
         text-align: center;
         line-height: 1.4;
     }}
 
+    .header-top {{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+    }}
+
     .header-title {{
         font-size: 14px;
-        font-weight: bold;
     }}
 
     .header-location {{
@@ -44,20 +74,20 @@ st.markdown(f"""
     }}
 
     .header-date {{
+        margin-top: 4px;
         font-size: 12px;
     }}
 
     .main .block-container {{
-        padding-top: 80px;
+        padding-top: 70px;
     }}
     </style>
 
     <div class="custom-header">
-        <div class="header-content">
-            <div class="header-title">🔎 Você Fiscaliza</div>
-            <div class="header-location">Quixeramobim, Ceará</div>
-            <div class="header-date">{data_hoje}</div>
+        <div class="header-top">
+            <div class="header-title">🔎 Você Fiscaliza | Quixeramobim - Ceará</div>            
         </div>
+        <div class="header-date">{data_hoje}</div>
     </div>
 """, unsafe_allow_html=True)
 
