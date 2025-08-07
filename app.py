@@ -265,6 +265,11 @@ st.markdown(
 
 st.markdown(f"""
     <style>
+    .main, .main .block-container {{
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }}
+
     .custom-footer {{
         width: 100%;
         background-color: #04a5c9;
@@ -283,4 +288,5 @@ st.markdown(f"""
         🔒 Plataforma Você Fiscaliza | Desenvolvido com transparência e participação popular
     </div>
 """, unsafe_allow_html=True)
+
 
