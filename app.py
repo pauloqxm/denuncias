@@ -269,7 +269,12 @@ st.markdown(f"""
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
     }}
-
+    
+    .stApp {{
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }}
+    
     .custom-footer {{
         width: 100%;
         background-color: #04a5c9;
@@ -280,7 +285,10 @@ st.markdown(f"""
         font-weight: bold;
         border-top: 3px solid #fad905;
         text-align: center;
-        margin-top: 40px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }}
     </style>
 
@@ -288,5 +296,3 @@ st.markdown(f"""
         🔒 Plataforma Você Fiscaliza | Desenvolvido com transparência e participação popular
     </div>
 """, unsafe_allow_html=True)
-
-
