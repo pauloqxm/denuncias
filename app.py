@@ -113,7 +113,7 @@ st.markdown(f"""
         gap: 30px;
         flex-wrap: wrap;
         margin-top: -40px;
-        border-bottom: 2px solid #fad905;
+        border-bottom: 2px solid #ebeced;
     }}
 
     .social-menu a {{
