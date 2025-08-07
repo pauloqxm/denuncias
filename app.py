@@ -205,7 +205,7 @@ else:
         st.markdown("""
             <style>
             div[data-baseweb="select"] > div {
-                background-color: #f0f8ff;  /* Azul claro */
+                background-color: #f7dd68;  /* Azul claro */
                 border-radius: 6px;
                 padding: 3px;
             }
