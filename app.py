@@ -96,6 +96,45 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
+#Menu Inicial
+
+st.markdown(f"""
+    <style>
+    .social-menu {{
+        width: 100%;
+        background-color: #003b57;
+        color: white;
+        padding: 8px 32px;
+        font-family: Tahoma, sans-serif;
+        font-size: 13px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        border-bottom: 2px solid #fad905;
+    }}
+
+    .social-menu a {{
+        color: white;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }}
+
+    .social-menu a:hover {{
+        color: #fad905;
+    }}
+    </style>
+
+    <div class="social-menu">
+        <a href="https://www.instagram.com/seuusuario" target="_blank">📸 Instagram</a>
+        <a href="https://www.facebook.com/seuusuario" target="_blank">📘 Facebook</a>
+        <a href="https://wa.me/5588999999999" target="_blank">💬 WhatsApp</a>
+        <a href="mailto:vocedenuncia@qvocedenuncia" target="_blank">✉️ Email</a>
+    </div>
+""", unsafe_allow_html=True)
+
+
 st.title("📋 Denúncias Recebidas")
 
 def carregar_dados():
