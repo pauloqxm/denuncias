@@ -134,9 +134,16 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-
-
-st.title("📋 Denúncias Recebidas")
+st.markdown("""
+    <h1 style='
+        font-family: Tahoma, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333333;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    '>📋 Denúncias Recebidas</h1>
+""", unsafe_allow_html=True)
 
 def carregar_dados():
     try:
