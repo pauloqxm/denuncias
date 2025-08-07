@@ -102,9 +102,9 @@ st.markdown(f"""
     <style>
     .social-menu {{
         width: 100%;
-        background-color: #003b57;
+        background-color: #04a5c9;
         color: white;
-        padding: 8px 32px;
+        padding: 6px 32px;
         font-family: Tahoma, sans-serif;
         font-size: 13px;
         display: flex;
@@ -112,6 +112,7 @@ st.markdown(f"""
         align-items: center;
         gap: 30px;
         flex-wrap: wrap;
+        margin-top: -6px;
         border-bottom: 2px solid #fad905;
     }}
 
@@ -133,6 +134,7 @@ st.markdown(f"""
         <a href="mailto:vocedenuncia@qvocedenuncia" target="_blank">✉️ Email</a>
     </div>
 """, unsafe_allow_html=True)
+
 
 
 st.title("📋 Denúncias Recebidas")
