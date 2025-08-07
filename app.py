@@ -283,8 +283,3 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-    <div class="custom-footer">
-        🔒 Plataforma Você Fiscaliza | Desenvolvido com transparência e participação popular
-    </div>
-""", unsafe_allow_html=True)
-
