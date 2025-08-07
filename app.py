@@ -291,14 +291,18 @@ else:
 
 st.markdown(
     """
-    <div style='text-align: center; 
-                border: 2px solid #fad905;
-                padding: 30px; 
-                border-radius: 8px;
-                margin-top: 20px;
-                margin-bottom: -120px;
-                font-size: 14px;
-                line-height: 1.6;'>
+    <div style='
+        width: 100%;
+        border-top: 2px solid #fad905;
+        padding: 16px 0 8px 0;
+        font-size: 14px;
+        font-family: Tahoma, sans-serif;
+        color: #333;
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: -60px;
+        line-height: 1.6;
+    '>
         <div style='display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;'>
             <span>📞 (88) 99999-9999</span>
             <span>|</span>
@@ -306,13 +310,14 @@ st.markdown(
             <span>|</span>
             <span><b>Plataforma Você Denuncia</b></span>
         </div>
-        <div style='margin-top: 10px;'>
+        <div style='margin-top: 6px; font-size: 13px; color: #444;'>
             🏢 R. 14 de Agosto, 123 - Centro, Quixeramobim - CE, 63800-000
         </div>
     </div>
     """,
     unsafe_allow_html=True
 )
+
 
 st.markdown(f"""
     <style>
