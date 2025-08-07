@@ -161,6 +161,9 @@ else:
         if bairro != "Todos":
             filtered_df = filtered_df[filtered_df["Bairro"] == bairro]
 
+        # Filtra apenas os que devem ser exibidos
+        filtered_df = filtered_df[filtered_df["Postar"].astype(str).str.strip().str.lower() == "sim"]
+
         # Mapa
         st.subheader("🗺️ Mapa das Denúncias")
         valid_coords_df = filtered_df[filtered_df["Latitude"].notna() & filtered_df["Longitude"].notna()]
