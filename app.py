@@ -295,7 +295,7 @@ st.markdown(
                 border: 2px solid #fad905;
                 padding: 30px; 
                 border-radius: 8px;
-                margin-top: -20px;
+                margin-top: 20px;
                 font-size: 14px;
                 line-height: 1.6;'>
         <div style='display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;'>
