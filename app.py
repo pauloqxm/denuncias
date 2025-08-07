@@ -4,7 +4,7 @@ import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import folium_static
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import locale
 
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
