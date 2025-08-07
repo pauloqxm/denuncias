@@ -300,7 +300,7 @@ st.markdown(
         color: #333;
         text-align: center;
         margin-top: 30px;
-        margin-bottom: -60px;
+        margin-bottom: -100px;
         line-height: 1.6;
     '>
         <div style='display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;'>
