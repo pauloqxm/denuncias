@@ -266,9 +266,6 @@ st.markdown(
 st.markdown(f"""
     <style>
     .custom-footer {{
-        position: fixed;
-        bottom: 0;
-        left: 0;
         width: 100%;
         background-color: #04a5c9;
         color: white;
@@ -277,9 +274,14 @@ st.markdown(f"""
         font-size: 12px;
         border-top: 3px solid #fad905;
         text-align: center;
-        z-index: 9999;
+        margin-top: 40px;
     }}
     </style>
+
+    <div class="custom-footer">
+        🔒 Plataforma Você Fiscaliza | Desenvolvido com transparência e participação popular
+    </div>
+""", unsafe_allow_html=True)
 
     <div class="custom-footer">
         🔒 Plataforma Você Fiscaliza | Desenvolvido com transparência e participação popular
