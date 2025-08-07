@@ -55,6 +55,7 @@ st.markdown(f"""
         background-color: #04a5c9;
         color: white;
         padding: 10px 32px;
+        text-align: center;
         font-family: Tahoma, sans-serif;
         border-bottom: 3px solid #fad905;
         z-index: 9999;
