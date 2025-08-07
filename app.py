@@ -130,8 +130,7 @@ st.markdown(f"""
     <div class="social-menu">
         <a href="https://www.instagram.com/seuusuario" target="_blank">📸 Instagram</a>
         <a href="https://www.facebook.com/seuusuario" target="_blank">📘 Facebook</a>
-        <a href="https://wa.me/5588999999999" target="_blank">💬 WhatsApp</a>
-        <a href="mailto:vocedenuncia@qvocedenuncia" target="_blank">✉️ Email</a>
+        <a href="https://wa.me/5588999999999" target="_blank">💬 WhatsApp</a>       
     </div>
 """, unsafe_allow_html=True)
 
