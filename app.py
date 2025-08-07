@@ -199,6 +199,19 @@ else:
     if colunas_faltantes:
         st.error(f"❌ Colunas faltantes no arquivo: {', '.join(colunas_faltantes)}")
     else:
+
+        # Estilo personalizado dos selectbox
+        
+        st.markdown("""
+            <style>
+            div[data-baseweb="select"] > div {
+                background-color: #f0f8ff;  /* Azul claro */
+                border-radius: 6px;
+                padding: 4px;
+            }
+            </style>
+        """, unsafe_allow_html=True)            
+        
         # Filtros
         col1, col2 = st.columns(2)
         with col1:
