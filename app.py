@@ -9,7 +9,10 @@ import locale
 
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 
-# Configuração da página
+# Fuso horário de Brasília
+fuso_brasilia = pytz.timezone("America/Sao_Paulo")
+agora = datetime.now(fuso_brasilia)
+
 dias_semana = {
     'Monday': 'Segunda-feira',
     'Tuesday': 'Terça-feira',
@@ -35,7 +38,6 @@ meses = {
     'December': 'dezembro'
 }
 
-agora = datetime.now()
 dia_semana = dias_semana[agora.strftime('%A')]
 mes = meses[agora.strftime('%B')]
 data_hoje = f"{dia_semana}, {agora.day:02d} de {mes} de {agora.year}"
