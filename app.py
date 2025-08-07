@@ -262,3 +262,27 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+st.markdown(f"""
+    <style>
+    .custom-footer {{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #04a5c9;
+        color: white;
+        padding: 10px 32px;
+        font-family: Tahoma, sans-serif;
+        font-size: 12px;
+        border-top: 3px solid #fad905;
+        text-align: center;
+        z-index: 9999;
+    }}
+    </style>
+
+    <div class="custom-footer">
+        🔒 Plataforma Você Fiscaliza | Desenvolvido com transparência e participação popular
+    </div>
+""", unsafe_allow_html=True)
+
