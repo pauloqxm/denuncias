@@ -135,14 +135,18 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 st.markdown("""
-    <h1 style='
+    <div style='
         font-family: Tahoma, sans-serif;
-        font-size: 24px;
+        font-size: 26px;
         font-weight: bold;
-        color: #333333;
-        margin-top: -24px;
+        color: #003366;
+        padding-bottom: 8px;
         margin-bottom: 20px;
-    '>📋 Denúncias Recebidas</h1>
+        border-bottom: 3px solid #fad905;
+        display: inline-block;
+    '>
+        📋 Denúncias Recebidas
+    </div>
 """, unsafe_allow_html=True)
 
 def carregar_dados():
