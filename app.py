@@ -1,16 +1,14 @@
 
-
 import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime, timedelta, timezone
-import locale
 
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 
-# Fuso horário de Brasília
-fuso_brasilia = pytz.timezone("America/Sao_Paulo")
+# Define o fuso horário de Brasília (UTC-3)
+fuso_brasilia = timezone(timedelta(hours=-3))
 agora = datetime.now(fuso_brasilia)
 
 dias_semana = {
@@ -38,6 +36,7 @@ meses = {
     'December': 'dezembro'
 }
 
+# Formatar data em português
 dia_semana = dias_semana[agora.strftime('%A')]
 mes = meses[agora.strftime('%B')]
 data_hoje = f"{dia_semana}, {agora.day:02d} de {mes} de {agora.year}"
