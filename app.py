@@ -137,10 +137,10 @@ st.markdown(f"""
 st.markdown("""
     <h1 style='
         font-family: Tahoma, sans-serif;
-        font-size: 16px;
+        font-size: 24px;
         font-weight: bold;
         color: #333333;
-        margin-top: 10px;
+        margin-top: -24px;
         margin-bottom: 20px;
     '>📋 Denúncias Recebidas</h1>
 """, unsafe_allow_html=True)
