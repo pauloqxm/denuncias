@@ -207,7 +207,7 @@ else:
             div[data-baseweb="select"] > div {
                 background-color: #f0f8ff;  /* Azul claro */
                 border-radius: 6px;
-                padding: 8px;
+                padding: 3px;
             }
             </style>
         """, unsafe_allow_html=True)            
