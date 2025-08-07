@@ -83,7 +83,7 @@ st.markdown(f"""
 
     .main .block-container {{
         padding-top: 70px;
-        text-align: center;
+        
     }}
     </style>
 
