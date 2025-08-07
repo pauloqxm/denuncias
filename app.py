@@ -268,6 +268,7 @@ st.markdown(f"""
     .main, .main .block-container {{
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
+        min-height: calc(100vh - 50px);
     }}
     
     .stApp {{
@@ -285,10 +286,14 @@ st.markdown(f"""
         font-weight: bold;
         border-top: 3px solid #fad905;
         text-align: center;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        margin-top: auto;  /* Isso empurra o rodapé para baixo */
+    }}
+    
+    /* Container flexível para empurrar o rodapé para baixo */
+    .main .block-container {{
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
     }}
     </style>
 
