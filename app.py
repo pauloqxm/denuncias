@@ -265,31 +265,6 @@ st.markdown(
 
 st.markdown(f"""
     <style>
-    /* Remove todos os espaços e paddings padrão */
-    .main .block-container {{
-        padding-top: 1rem;
-        padding-bottom: 0 !important;
-    }}
-    
-    .stApp {{
-        margin: 0;
-        padding: 0;
-    }}
-    
-    /* Faz o container principal ocupar toda a altura */
-    #root > .block-container {{
-        min-height: calc(100vh - 1rem);
-        display: flex;
-        flex-direction: column;
-    }}
-    
-    /* Empurra o rodapé para baixo */
-    .stMarkdown:has(div.custom-footer) {{
-        margin-top: auto;
-        padding-bottom: 0;
-    }}
-    
-    /* Estilo do rodapé */
     .custom-footer {{
         width: 100%;
         background-color: #04a5c9;
@@ -297,9 +272,9 @@ st.markdown(f"""
         padding: 10px 32px;
         font-family: Tahoma, sans-serif;
         font-size: 12px;
-        font-weight: bold;
         border-top: 3px solid #fad905;
         text-align: center;
+        margin-top: 40px;
     }}
     </style>
 
@@ -307,3 +282,4 @@ st.markdown(f"""
         🔒 Plataforma Você Fiscaliza | Desenvolvido com transparência e participação popular
     </div>
 """, unsafe_allow_html=True)
+
