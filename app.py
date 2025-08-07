@@ -55,82 +55,65 @@ st.markdown(f"""
         width: 100%;
         background-color: #04a5c9;
         color: white;
-        padding: 10px 32px;
+        padding: 10px 32px 6px 32px;
         font-family: Tahoma, sans-serif;
         border-bottom: 3px solid #fad905;
         z-index: 9999;
     }}
 
-    .header-top {{
+    .header-content {{
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
         align-items: center;
-        font-weight: bold;
+        justify-content: center;
+        text-align: center;
+        gap: 4px;
     }}
 
     .header-title {{
         font-size: 14px;
-        
-    }}
-
-    .header-location {{
-        font-size: 12px;
+        font-weight: bold;
     }}
 
     .header-date {{
-        margin-top: 4px;
         font-size: 12px;
     }}
 
-    .main .block-container {{
-        padding-top: 70px;
-        
-    }}
-    </style>
-
-    <div class="custom-header">
-        <div class="header-top">
-            <div class="header-title">🔎 Você Fiscaliza | Quixeramobim - Ceará</div>            
-        </div>
-        <div class="header-date">📅 {data_hoje}</div>
-    </div>
-""", unsafe_allow_html=True)
-
-#Menu Inicial
-
-st.markdown(f"""
-    <style>
-    .social-menu {{
-        width: 100%;
-        background-color: #003b57;
-        color: white;
-        padding: 8px 32px;
-        font-family: Tahoma, sans-serif;
-        font-size: 13px;
+    .social-links {{
+        margin-top: 6px;
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 30px;
-        flex-wrap: wrap;
-        border-bottom: 2px solid #fad905;
+        gap: 25px;
+        font-size: 13px;
     }}
 
-    .social-menu a {{
+    .social-links a {{
         color: white;
         text-decoration: none;
         transition: color 0.3s ease;
     }}
 
-    .social-menu a:hover {{
+    .social-links a:hover {{
         color: #fad905;
+    }}
+
+    .main .block-container {{
+        padding-top: 110px;
     }}
     </style>
 
-    <div class="social-menu">
-        <a href="https://www.instagram.com/seuusuario" target="_blank">📸 Instagram</a>
-        <a href="https://www.facebook.com/seuusuario" target="_blank">📘 Facebook</a>
-        <a href="https://wa.me/5588999999999" target="_blank">💬 WhatsApp</a>
-        <a href="mailto:vocedenuncia@qvocedenuncia" target="_blank">✉️ Email</a>
+    <div class="custom-header">
+        <div class="header-content">
+            <div class="header-title">🔎 Você Fiscaliza | Quixeramobim - Ceará</div>
+            <div class="header-date">📅 {data_hoje}</div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/seuusuario" target="_blank">📸 Instagram</a>
+                <a href="https://www.facebook.com/seuusuario" target="_blank">📘 Facebook</a>
+                <a href="https://wa.me/5588999999999" target="_blank">💬 WhatsApp</a>
+                <a href="mailto:vocedenuncia@qvocedenuncia" target="_blank">✉️ Email</a>
+            </div>
+        </div>
     </div>
 """, unsafe_allow_html=True)
 
