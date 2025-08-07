@@ -199,23 +199,12 @@ else:
     if colunas_faltantes:
         st.error(f"❌ Colunas faltantes no arquivo: {', '.join(colunas_faltantes)}")
     else:
-        # Estilo personalizado dos selectbox
-st.markdown("""
-    <style>
-    div[data-baseweb="select"] > div {
-        background-color: #f0f8ff;  /* Azul claro */
-        border-radius: 6px;
-        padding: 4px;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-# Filtros
-col1, col2 = st.columns(2)
-with col1:
-    tipo = st.selectbox("Filtrar por tipo de denúncia", ["Todos"] + sorted(df["Tipo de Denúncia"].dropna().unique()))
-with col2:
-    bairro = st.selectbox("Filtrar por bairro", ["Todos"] + sorted(df["Bairro"].dropna().unique()))
+        # Filtros
+        col1, col2 = st.columns(2)
+        with col1:
+            tipo = st.selectbox("Filtrar por tipo de denúncia", ["Todos"] + sorted(df["Tipo de Denúncia"].dropna().unique()))
+        with col2:
+            bairro = st.selectbox("Filtrar por bairro", ["Todos"] + sorted(df["Bairro"].dropna().unique()))
         
         filtered_df = df.copy()
         if tipo != "Todos":
