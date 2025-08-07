@@ -198,6 +198,8 @@ else:
 
             
             for _, row in valid_coords_df.iterrows():
+                if str(row.get("Postar", "")).strip().lower() != "sim":
+                  continue  
                 lat = row["Latitude"]
                 lon = row["Longitude"]
                 foto_url = row.get("Foto_URL", "")
