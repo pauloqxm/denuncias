@@ -265,17 +265,31 @@ st.markdown(
 
 st.markdown(f"""
     <style>
-    .main, .main .block-container {{
+    /* Remove todos os espaços e paddings padrão */
+    .main .block-container {{
+        padding-top: 1rem;
         padding-bottom: 0 !important;
-        margin-bottom: 0 !important;
-        min-height: calc(100vh - 50px);
     }}
     
     .stApp {{
-        padding-bottom: 0 !important;
-        margin-bottom: 0 !important;
+        margin: 0;
+        padding: 0;
     }}
     
+    /* Faz o container principal ocupar toda a altura */
+    #root > .block-container {{
+        min-height: calc(100vh - 1rem);
+        display: flex;
+        flex-direction: column;
+    }}
+    
+    /* Empurra o rodapé para baixo */
+    .stMarkdown:has(div.custom-footer) {{
+        margin-top: auto;
+        padding-bottom: 0;
+    }}
+    
+    /* Estilo do rodapé */
     .custom-footer {{
         width: 100%;
         background-color: #04a5c9;
@@ -286,14 +300,6 @@ st.markdown(f"""
         font-weight: bold;
         border-top: 3px solid #fad905;
         text-align: center;
-        margin-top: auto;  /* Isso empurra o rodapé para baixo */
-    }}
-    
-    /* Container flexível para empurrar o rodapé para baixo */
-    .main .block-container {{
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
     }}
     </style>
 
