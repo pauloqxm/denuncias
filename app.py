@@ -272,6 +272,7 @@ st.markdown(f"""
         padding: 10px 32px;
         font-family: Tahoma, sans-serif;
         font-size: 12px;
+        font-weight: bold;
         border-top: 3px solid #fad905;
         text-align: center;
         margin-top: 40px;
