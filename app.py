@@ -70,6 +70,7 @@ st.markdown(f"""
 
     .header-title {{
         font-size: 14px;
+        text-align: center;
     }}
 
     .header-location {{
