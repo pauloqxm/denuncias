@@ -112,7 +112,7 @@ st.markdown(f"""
         align-items: center;
         gap: 30px;
         flex-wrap: wrap;
-        margin-top: -12px;
+        margin-top: -24px;
         border-bottom: 2px solid #fad905;
     }}
 
