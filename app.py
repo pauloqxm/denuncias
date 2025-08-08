@@ -393,3 +393,35 @@ st.markdown(f"""
         🔒 Plataforma Você Fiscaliza | Desenvolvido com transparência e participação popular
     </div>
 """, unsafe_allow_html=True)
+
+#⬆️ Voltar ao Início
+
+st.markdown("""
+    <style>
+    #back-to-top-btn {
+        position: fixed;
+        bottom: 60px;
+        right: 20px;
+        background-color: #fad905;
+        color: #003366;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: bold;
+        font-family: Tahoma, sans-serif;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        z-index: 99999;
+    }
+
+    #back-to-top-btn:hover {
+        background-color: #ffe93a;
+    }
+    </style>
+
+    <button id="back-to-top-btn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
+        ⬆️ Voltar ao Início
+    </button>
+""", unsafe_allow_html=True)
+
