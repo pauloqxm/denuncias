@@ -4,6 +4,7 @@ import pandas as pd
 import folium
 from streamlit_folium import folium_static
 from datetime import datetime, timedelta, timezone
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Denúncias Recebidas", layout="wide")
 
@@ -396,9 +397,11 @@ st.markdown(f"""
 
 #⬆️ Voltar ao Início
 
-st.markdown("""
+import streamlit.components.v1 as components
+
+components.html("""
     <style>
-    #back-to-top-btn {
+    #backToTopBtn {
         display: none;
         position: fixed;
         bottom: 60px;
@@ -413,35 +416,32 @@ st.markdown("""
         font-family: Tahoma, sans-serif;
         cursor: pointer;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-        z-index: 99999;
+        z-index: 9999;
     }
 
-    #back-to-top-btn:hover {
+    #backToTopBtn:hover {
         background-color: #ffe93a;
     }
     </style>
 
-    <button id="back-to-top-btn">⬆️ Voltar ao Início</button>
+    <button id="backToTopBtn">⬆️ Voltar ao Início</button>
 
     <script>
-    // Mostrar botão só no final da página
-    window.onscroll = function() {{
-        const btn = document.getElementById("back-to-top-btn");
-        if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 20) {{
+    // Mostrar botão quando chega perto do fim
+    window.addEventListener("scroll", function() {
+        var btn = document.getElementById("backToTopBtn");
+        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 50)) {
             btn.style.display = "block";
-        }} else {{
+        } else {
             btn.style.display = "none";
-        }}
-    }}
+        }
+    });
 
-    // Rolar suavemente ao topo quando clicado
-    document.addEventListener("DOMContentLoaded", function() {{
-        const btn = document.getElementById("back-to-top-btn");
-        btn.addEventListener("click", function() {{
-            window.scrollTo({{ top: 0, behavior: 'smooth' }});
-        }});
-    }});
+    // Ao clicar, rolar suavemente para o topo
+    document.getElementById("backToTopBtn").addEventListener("click", function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
     </script>
-""", unsafe_allow_html=True)
+""", height=0)
 
 
