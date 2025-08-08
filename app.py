@@ -422,13 +422,13 @@ components.html("""
     }
     </style>
 
-    <button id="backToTopBtn">⬆️ Voltar ao Início</button>
+    <button id="backToTopBtn" title="Voltar ao topo">⬆️ Voltar ao Início</button>
 
     <script>
-    // Mostrar botão quando chega perto do fim
+    // Mostrar botão quando o usuário rolar para baixo
     window.addEventListener("scroll", function() {
         var btn = document.getElementById("backToTopBtn");
-        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 50)) {
+        if (window.scrollY > 300) {  // Mostrar após rolar 300px
             btn.style.display = "block";
         } else {
             btn.style.display = "none";
@@ -440,6 +440,6 @@ components.html("""
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     </script>
-""", height=0)
+""")
 
 
