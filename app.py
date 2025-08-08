@@ -100,8 +100,13 @@ st.markdown(f"""
 
 st.markdown(f"""
     <style>
-    .social-menu {{
-        width: 100%;
+    .social-menu-container {{
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        width: 100vw;
         background-color: #04a5c9;
         color: white;
         padding: 6px 32px;
@@ -114,20 +119,21 @@ st.markdown(f"""
         flex-wrap: wrap;
         margin-top: -40px;
         border-bottom: 3px solid #b6b8ba;
+        z-index: 9999;
     }}
 
-    .social-menu a {{
+    .social-menu-container a {{
         color: white;
         text-decoration: none;
         transition: color 0.3s ease;
     }}
 
-    .social-menu a:hover {{
+    .social-menu-container a:hover {{
         color: #fad905;
     }}
     </style>
 
-    <div class="social-menu">
+    <div class="social-menu-container">
         <a href="https://www.instagram.com/seuusuario" target="_blank">📸 Insta</a>
         <a href="https://www.facebook.com/seuusuario" target="_blank">📘 Faceb</a>
         <a href="https://wa.me/5588999999999" target="_blank">💬 Zap</a>       
