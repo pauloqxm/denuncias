@@ -397,8 +397,6 @@ st.markdown(f"""
 
 #⬆️ Voltar ao Início
 
-import streamlit.components.v1 as components
-
 components.html("""
     <style>
     #backToTopBtn {
