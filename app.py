@@ -118,9 +118,9 @@ st.markdown(f"""
         align-items: center;
         gap: 30px;
         flex-wrap: wrap;
-        margin-top: -40px;
+        margin-top: 48px;  /* Espaço para aparecer abaixo da barra fixa */
         border-bottom: 3px solid #b6b8ba;
-        z-index: 9999;
+        z-index: 1;  /* Mais baixo que o header fixo */
     }}
 
     .social-menu-container a {{
