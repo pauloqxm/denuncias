@@ -399,6 +399,7 @@ st.markdown(f"""
 st.markdown("""
     <style>
     #back-to-top-btn {
+        display: none;
         position: fixed;
         bottom: 60px;
         right: 20px;
@@ -420,8 +421,27 @@ st.markdown("""
     }
     </style>
 
-    <button id="back-to-top-btn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
-        ⬆️ Voltar ao Início
-    </button>
+    <button id="back-to-top-btn">⬆️ Voltar ao Início</button>
+
+    <script>
+    // Mostrar botão só no final da página
+    window.onscroll = function() {{
+        const btn = document.getElementById("back-to-top-btn");
+        if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 20) {{
+            btn.style.display = "block";
+        }} else {{
+            btn.style.display = "none";
+        }}
+    }}
+
+    // Rolar suavemente ao topo quando clicado
+    document.addEventListener("DOMContentLoaded", function() {{
+        const btn = document.getElementById("back-to-top-btn");
+        btn.addEventListener("click", function() {{
+            window.scrollTo({{ top: 0, behavior: 'smooth' }});
+        }});
+    }});
+    </script>
 """, unsafe_allow_html=True)
+
 
