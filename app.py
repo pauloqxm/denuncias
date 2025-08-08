@@ -134,9 +134,9 @@ st.markdown(f"""
     </style>
 
     <div class="social-menu-container">
-        <a href="https://www.instagram.com/seuusuario" target="_blank">📸 Insta</a>
-        <a href="https://www.facebook.com/seuusuario" target="_blank">📘 Faceb</a>
-        <a href="https://wa.me/5588999999999" target="_blank">💬 Zap</a>       
+        <a href="https://www.instagram.com/seuusuario" target="_blank">📸 Instagran</a>
+        <a href="https://www.facebook.com/seuusuario" target="_blank">📘 Facebook</a>
+        <a href="https://wa.me/5588999999999" target="_blank">💬 WhatsApp</a>       
     </div>
 """, unsafe_allow_html=True)
 
@@ -320,8 +320,14 @@ else:
 
 st.markdown(
     """
-    <div style='
-        width: 100%;
+    <style>
+    .footer-full-width {
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        width: 100vw;
         border-top: 2px solid #fad905;
         padding: 16px 0 8px 0;
         font-size: 14px;
@@ -331,15 +337,32 @@ st.markdown(
         margin-top: 30px;
         margin-bottom: -100px;
         line-height: 1.6;
-    '>
-        <div style='display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;'>
+        background-color: white;
+        z-index: 9999;
+    }
+    .footer-full-width .info-top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .footer-full-width .address {
+        margin-top: 6px;
+        font-size: 13px;
+        color: #444;
+    }
+    </style>
+
+    <div class="footer-full-width">
+        <div class="info-top">
             <span>📞 (88) 99999-9999</span>
             <span>|</span>
             <span>📧 vocedenuncia@qvocedenuncia</span>
             <span>|</span>
             <span><b>Plataforma Você Denuncia</b></span>
         </div>
-        <div style='margin-top: 6px; font-size: 13px; color: #444;'>
+        <div class="address">
             🏢 R. 14 de Agosto, 123 - Centro, Quixeramobim - CE, 63800-000
         </div>
     </div>
