@@ -118,7 +118,7 @@ st.markdown(f"""
         align-items: center;
         gap: 30px;
         flex-wrap: wrap;
-        margin-top: 48px;  /* Espaço para aparecer abaixo da barra fixa */
+        margin-top: -40px;  /* Espaço para aparecer abaixo da barra fixa */
         border-bottom: 3px solid #b6b8ba;
         z-index: 1;  /* Mais baixo que o header fixo */
     }}
