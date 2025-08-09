@@ -118,28 +118,63 @@ st.markdown(f"""
         align-items: center;
         gap: 30px;
         flex-wrap: wrap;
-        margin-top: -40px;  /* Espaço para aparecer abaixo da barra fixa */
+        margin-top: -40px;
         border-bottom: 3px solid #b6b8ba;
-        z-index: 1;  /* Mais baixo que o header fixo */
+        z-index: 1;
     }}
 
     .social-menu-container a {{
         color: white;
         text-decoration: none;
         transition: color 0.3s ease;
+        display: block;
+        padding: 5px 10px;
     }}
 
     .social-menu-container a:hover {{
         color: #fad905;
     }}
+
+    /* Menu principal e submenus */
+    .dropdown {{
+        position: relative;
+        display: inline-block;
+    }}
+
+    .dropdown-content {{
+        display: none;
+        position: absolute;
+        background-color: #04a5c9;
+        min-width: 120px;
+        box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+        z-index: 999;
+    }}
+
+    .dropdown-content a {{
+        padding: 8px 12px;
+        text-decoration: none;
+        display: block;
+    }}
+
+    .dropdown:hover .dropdown-content {{
+        display: block;
+    }}
     </style>
 
     <div class="social-menu-container">
-        <a href="https://www.instagram.com/seuusuario" target="_blank">📸 Instagran</a>
+        <div class="dropdown">
+            <a href="#">📸 Instagram</a>
+            <div class="dropdown-content">
+                <a href="https://www.instagram.com/seuusuario/reels" target="_blank">Reel</a>
+                <a href="https://www.instagram.com/seuusuario/stories" target="_blank">Store</a>
+                <a href="https://www.instagram.com/seuusuario" target="_blank">Feed</a>
+            </div>
+        </div>
         <a href="https://www.facebook.com/seuusuario" target="_blank">📘 Facebook</a>
         <a href="https://wa.me/5588999999999" target="_blank">💬 WhatsApp</a>       
     </div>
 """, unsafe_allow_html=True)
+
 
 st.markdown("""
     <div style='
